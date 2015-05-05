@@ -1,2 +1,2 @@
 # leetcode
-leetcode exercise 	for fun
+leetcode exercise for fun
