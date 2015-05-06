@@ -31,6 +31,18 @@ public:
         }
         return ret;
     }
+
+    ListNode* reverseListRec(ListNode* head)
+    {
+        if(!head || !head->next)
+        {
+            return head;
+        }
+        ListNode* tail = head->next;
+        ListNode* newhead = reverseListRec(head->next);
+        tail->next = head;
+        return newhead;
+    }
 };
 
 int main()
