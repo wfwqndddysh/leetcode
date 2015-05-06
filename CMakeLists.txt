@@ -15,7 +15,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY         "${CMAKE_BINARY_DIR}/")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY         "${CMAKE_BINARY_DIR}/")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY         "${CMAKE_BINARY_DIR}/")
 
-
 #==============================================================================
 #处理构建类型
 #==============================================================================
@@ -26,6 +25,7 @@ endif()
 #==============================================================================
 #编译选项
 #==============================================================================
+set(CMAKE_C_COMPILER clang)
 set(CMAKE_CXX_COMPILER clang++)
 set(WARNING_FLAGS           "-Weverything -Wno-c++98-compat")
 set(COMPILE_FLAGS           "-std=c++11")
@@ -34,6 +34,10 @@ set(RELEASE_FLAGS           "-DNDEBUG -O3")
 set(CMAKE_CXX_FLAGS_DEBUG   "${WARNING_FLAGS} ${COMPILE_FLAGS} ${DEBUG_FLAGS}")
 set(CMAKE_CXX_FLAGS_RELEASE "${WARNING_FLAGS} ${COMPILE_FLAGS} ${RELEASE_FLAGS}")
 
+#==============================================================================
+# really start ...
+#==============================================================================
 add_executable(reverse_linked_list reverse_linked_list.cpp)
 add_executable(isomorphic isomorphic.cpp)
+add_executable(count_primes count_primes.cpp)
 
