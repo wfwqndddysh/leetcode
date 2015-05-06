@@ -35,4 +35,5 @@ set(CMAKE_CXX_FLAGS_DEBUG   "${WARNING_FLAGS} ${COMPILE_FLAGS} ${DEBUG_FLAGS}")
 set(CMAKE_CXX_FLAGS_RELEASE "${WARNING_FLAGS} ${COMPILE_FLAGS} ${RELEASE_FLAGS}")
 
 add_executable(reverse_linked_list reverse_linked_list.cpp)
+add_executable(isomorphic isomorphic.cpp)
 
