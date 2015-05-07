@@ -40,4 +40,5 @@ set(CMAKE_CXX_FLAGS_RELEASE "${WARNING_FLAGS} ${COMPILE_FLAGS} ${RELEASE_FLAGS}"
 add_executable(reverse_linked_list reverse_linked_list.cpp)
 add_executable(isomorphic isomorphic.cpp)
 add_executable(count_primes count_primes.cpp)
+add_executable(remove_linked_list_elements remove_linked_list_elements.cpp)
 
