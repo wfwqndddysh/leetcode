@@ -1,6 +1,7 @@
 #include<vector>
 #include<iostream>
 #include<cassert>
+#include<cstring>
 
 struct TrieNode
 {
@@ -100,6 +101,102 @@ private:
     }
 
     TrieNode* root_;
+};
+
+struct TrieNodeFast
+{
+    TrieNodeFast()
+        : is_end_(false)
+    {
+        memset(children_, '\0', sizeof(children_));
+    }
+
+    TrieNodeFast* children_[26];
+    bool is_end_;
+};
+
+class TrieFast
+{
+public:
+    TrieFast()
+        : root_(new TrieNodeFast())
+    {}
+
+    void insert(const std::string& s)
+    {
+        TrieNodeFast* last_node = root_;
+        auto last_itr = s.cbegin();
+
+        if(find_last_char(&last_itr, s.cend(), root_, &last_node))
+        {
+            last_node->is_end_ = true;
+            return;
+        }
+
+        for(; last_itr!=s.cend(); ++last_itr)
+        {
+            TrieNodeFast* node = new TrieNodeFast();
+            last_node->children_[*last_itr-'a'] = node;
+            last_node = node;
+        }
+        last_node->is_end_ = true;
+    }
+
+    bool startsWith(const std::string& s)
+    {
+        TrieNodeFast* last_node = root_;
+        auto last_itr = s.cbegin();
+
+        return find_last_char(&last_itr, s.cend(), root_, &last_node);
+    }
+
+    bool search(const std::string& s)
+    {
+        TrieNodeFast* last_node = root_;
+        auto last_itr = s.cbegin();
+
+        return find_last_char(&last_itr, s.cend(), root_, &last_node) ? last_node->is_end_ : false;
+    }
+
+    ~TrieFast()
+    {
+        cleanup(root_);
+    }
+private:
+    using itr_type = std::string::const_iterator;
+
+    bool find_last_char(itr_type* first
+            , itr_type last
+            , TrieNodeFast* root
+            , TrieNodeFast** last_node)
+    {
+        auto cur = root->children_[**first-'a'];
+
+        if(!cur)
+            return false;
+
+        (*first)++;
+        *last_node = cur;
+
+        if(*first==last)
+            return true;
+
+        return find_last_char(first, last, cur, last_node);
+    }
+
+    void cleanup(TrieNodeFast* root)
+    {
+        for(auto n : root->children_)
+        {
+            if(n)
+            {
+                cleanup(n);
+            }
+        }
+        delete root;
+    }
+
+    TrieNodeFast* root_;
 };
 
 int main()
