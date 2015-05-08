@@ -8,24 +8,17 @@ public:
     {
         int sum = 0;
 
-        int single[16] = {0};
         int sum_table[500] = {0};
         int cur = n;
 
         while(sum != 1)
         {
-            int cnt = 0;
+            sum = 0;
             while(cur>0)
             {
                 int s = cur % 10;
-                single[cnt++] = s;
+                sum += s * s;
                 cur = cur/10;
-            }
-
-            sum = 0;
-            for(int i=0; i<cnt; ++i)
-            {
-                sum += single[i] * single[i];
             }
 
             if(sum==1)
