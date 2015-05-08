@@ -42,4 +42,5 @@ add_executable(isomorphic isomorphic.cpp)
 add_executable(count_primes count_primes.cpp)
 add_executable(remove_linked_list_elements remove_linked_list_elements.cpp)
 add_executable(trie_prefix_tree trie_prefix_tree.cpp)
+add_executable(happy_number happy_number.cpp)
 
