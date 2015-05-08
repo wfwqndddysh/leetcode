@@ -1,8 +1,20 @@
 #include<vector>
 #include<iostream>
+#include<cassert>
 
 struct TrieNode
 {
+    TrieNode()
+        : is_end_(false)
+    {
+    }
+
+    TrieNode(char c)
+        : c_(c)
+          , is_end_(false)
+    {
+    }
+
     std::vector<TrieNode*> children_;
     char c_;
     bool is_end_;
@@ -17,103 +29,74 @@ public:
 
     void insert(const std::string& s)
     {
-        TrieNode* last_node = nullptr;
+        TrieNode* last_node = root_;
         auto last_itr = s.cbegin();
 
         if(find_last_char(&last_itr, s.cend(), root_, &last_node))
         {
             last_node->is_end_ = true;
+            return;
         }
 
-        TrieNode* root = last_node ? last_node : root_;
-        ++last_itr;
         for(; last_itr!=s.cend(); ++last_itr)
         {
-            root->children_.push_back(new TrieNode());
-            root = root->children_.back();
+            last_node->children_.push_back(new TrieNode(*last_itr));
+            last_node = last_node->children_.back();
         }
-        root->children_.back()->is_end_ = true;
+        last_node->is_end_ = true;
     }
 
-    bool startWith(const std::string& s)
+    bool startsWith(const std::string& s)
     {
-        for(auto n : root_->children_)
-        {
-            if(search_internal(s.cbegin(), s.cend(), n))
-                return true;
-        }
-        return false;
+        TrieNode* last_node = root_;
+        auto last_itr = s.cbegin();
+
+        return find_last_char(&last_itr, s.cend(), root_, &last_node);
     }
 
     bool search(const std::string& s)
     {
-        for(auto n : root_->children_)
-        {
-            if(search_internal(s.cbegin(), s.cend(), n))
-                return true;
-        }
-        return false;
+        TrieNode* last_node = root_;
+        auto last_itr = s.cbegin();
+
+        return find_last_char(&last_itr, s.cend(), root_, &last_node) ? last_node->is_end_ : false;
     }
 
     ~Trie()
     {
-        delete root_;
+        cleanup(root_);
     }
 private:
     using itr_type = std::string::const_iterator;
 
-    bool start_with_internal(itr_type first, itr_type last, TrieNode* root)
-    {
-        if(first==last)
-            return true;
-
-        if(root->c_!=*first)
-            return false;
-
-        for(auto n : root->children_)
-        {
-            if(start_with_internal(++first, last, n))
-                return true;
-        }
-        return false;
-    }
-
-    bool search_internal(itr_type first, itr_type last, TrieNode* root)
-    {
-        if(root->c_!= *first)
-            return false;
-
-        if(++first==last)
-            return root->is_end_;
-
-        for(auto n : root->children_)
-        {
-            if(search_internal(++first, last, n))
-                return true;
-        }
-        return false;
-    }
-
     bool find_last_char(itr_type* first
             , itr_type last
             , TrieNode* root
-            , TrieNode** last_char)
+            , TrieNode** last_node)
     {
-        if(*first==last)
-            return true;
-
-        if(root->c_!= **first)
-            return false;
-
-        *last_char = root;
-
         for(auto n : root->children_)
         {
-            *first = (*first)++;
-            if(find_last_char(first, last, n, last_char))
-                return true;
+            if(n->c_==**first)
+            {
+                (*first)++;
+                *last_node = n;
+
+                if(*first==last)
+                    return true;
+
+                return find_last_char(first, last, n, last_node);
+            }
         }
         return false;
+    }
+
+    void cleanup(TrieNode* root)
+    {
+        for(auto n : root->children_)
+        {
+            cleanup(n);
+        }
+        delete root;
     }
 
     TrieNode* root_;
@@ -121,6 +104,21 @@ private:
 
 int main()
 {
+    Trie tree;
+
+    tree.insert("a");
+    tree.insert("ab");
+    tree.insert("abc");
+    tree.insert("abde");
+    tree.insert("abcde");
+
+    assert(tree.search("a"));
+    assert(tree.search("ab"));
+    assert(tree.search("abc"));
+    assert(tree.search("abde"));
+    assert(tree.search("abcde"));
+    assert(!tree.search("abcd"));
+
     return 0;
 }
 
