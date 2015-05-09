@@ -2,7 +2,6 @@
 #include<cassert>
 #include<vector>
 
-
 struct TreeNode
 {
     TreeNode(int x)
@@ -19,6 +18,7 @@ public:
     std::vector<int> rightSideView(TreeNode* root)
     {
         std::vector<int> views;
+        //views的size可以代表 need_level的值，省去一个参数
         int need_level = 0;
         right_side_view(views, root, 0, &need_level);
         return views;
@@ -45,5 +45,4 @@ int main()
 {
     return 0;
 }
-
 
