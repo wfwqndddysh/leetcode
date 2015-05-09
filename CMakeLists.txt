@@ -45,4 +45,5 @@ add_executable(trie_prefix_tree trie_prefix_tree.cpp)
 add_executable(happy_number happy_number.cpp)
 add_executable(range_bitwise_and range_bitwise_and.cpp)
 add_executable(bit_operation bit_operation.cpp)
+add_executable(number_of_land number_of_land.cpp)
 
