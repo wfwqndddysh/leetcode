@@ -16,9 +16,9 @@ public:
         width_ = grid[0].size()-1;
 
         int num_of_lands = 0;
-        for(size_t h =0; h<grid.size(); ++h)
+        for(size_t h =0; h<=high_; ++h)
         {
-            for(size_t v=0; v<grid[h].size(); ++v)
+            for(size_t v=0; v<=width_; ++v)
             {
                 if(grid[h][v]=='1')
                 {
@@ -37,6 +37,22 @@ public:
         return num_of_lands;
     }
 
+    int numIslandsRec(std::vector<std::vector<char>> grid)
+    {
+        if(grid.size()==0 || grid[0].size()==0)
+            return 0;
+
+        size_t num_of_rows = grid.size();
+        size_t num_of_columns = grid[0].size();
+        int num_of_lands = 0;
+        for(size_t h =0; h<=num_of_rows; ++h)
+            for(size_t v=0; v<=num_of_columns; ++v)
+                num_of_lands += visit(grid, h, v) ? 1 : 0;
+
+        return num_of_lands;
+    }
+
+private:
     void process_one(const std::tuple<size_t, size_t>& e, std::vector<std::vector<char>>& grid)
     {
         size_t h = std::get<0>(e);
@@ -70,7 +86,25 @@ public:
             st_.push(std::make_tuple(h, v+1));
         }
     }
-private:
+
+    bool visit(std::vector<std::vector<char>>& grid, size_t h, size_t v)
+    {
+        size_t num_of_rows = grid.size();
+        size_t num_of_columns = grid[0].size();
+
+        if((int)h < 0 || h>= num_of_rows || (int)v < 0 || v>= num_of_columns || grid[h][v] != '1')
+            return false;
+
+        grid[h][v] = 'v';
+
+        visit(grid, h-1, v);
+        visit(grid, h+1, v);
+        visit(grid, h, v-1);
+        visit(grid, h, v+1);
+
+        return true;
+    }
+
     size_t high_;
     size_t width_;
     std::stack<std::tuple<size_t, size_t>> st_;
