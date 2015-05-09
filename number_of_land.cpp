@@ -12,12 +12,6 @@ public:
         if(grid.size()==0 || grid[0].size()==0)
             return 0;
 
-        flags_.resize(grid.size());
-        for(auto& n : flags_)
-        {
-            n.resize(grid[0].size(), 0);
-        }
-
         high_ = grid.size()-1;
         width_ = grid[0].size()-1;
 
@@ -26,10 +20,10 @@ public:
         {
             for(size_t v=0; v<grid[h].size(); ++v)
             {
-                if(grid[h][v]=='1' && flags_[h][v]!=1)
+                if(grid[h][v]=='1')
                 {
                     num_of_lands++;
-                    flags_[h][v]=1;
+                    grid[h][v]='v';
                     st_.push(std::make_tuple(h, v));
                     while(!st_.empty())
                     {
@@ -43,43 +37,42 @@ public:
         return num_of_lands;
     }
 
-    void process_one(const std::tuple<size_t, size_t>& e, const std::vector<std::vector<char>>& grid)
+    void process_one(const std::tuple<size_t, size_t>& e, std::vector<std::vector<char>>& grid)
     {
         size_t h = std::get<0>(e);
         size_t v = std::get<1>(e);
 
         //top
-        if(h!=0 && grid[h-1][v]=='1' && flags_[h-1][v]==0)
+        if(h!=0 && grid[h-1][v]=='1')
         {
-            flags_[h-1][v] = 1;
+            grid[h-1][v] = 'v';
             st_.push(std::make_tuple(h-1, v));
         }
 
         //low
-        if(h!=high_ && grid[h+1][v]=='1' && flags_[h+1][v]==0)
+        if(h!=high_ && grid[h+1][v]=='1')
         {
-            flags_[h+1][v] = 1;
+            grid[h+1][v] = 1;
             st_.push(std::make_tuple(h+1, v));
         }
 
         //left
-        if(v!=0 && grid[h][v-1]=='1' && flags_[h][v-1]==0)
+        if(v!=0 && grid[h][v-1]=='1')
         {
-            flags_[h][v-1] = 1;
+            grid[h][v-1] = 1;
             st_.push(std::make_tuple(h, v-1));
         }
 
         //right
-        if(v!=width_ && grid[h][v+1]=='1' && flags_[h][v+1]==0)
+        if(v!=width_ && grid[h][v+1]=='1')
         {
-            flags_[h][v+1] = 1;
+            grid[h][v+1] = 1;
             st_.push(std::make_tuple(h, v+1));
         }
     }
 private:
     size_t high_;
     size_t width_;
-    std::vector<std::vector<char>> flags_;
     std::stack<std::tuple<size_t, size_t>> st_;
 };
 
