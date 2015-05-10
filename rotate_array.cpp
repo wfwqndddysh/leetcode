@@ -5,7 +5,6 @@
 class Solution
 {
 public:
-    /*
     void rotate(std::vector<int>& nums, int k)
     {
         auto sz = nums.size();
@@ -18,9 +17,8 @@ public:
         }
         nums = tmp;
     }
-    */
 
-    void rotate(std::vector<int>& nums, int k)
+    void rotate_forward(std::vector<int>& nums, int k)
     {
         auto sz = nums.size();
         k %= sz;
@@ -49,13 +47,39 @@ public:
             cur = (cur+k)%sz;
         }
     }
+
+    void rotate_back(std::vector<int>& nums, int k)
+    {
+        int sz = nums.size();
+        k %= sz;
+
+        if(sz<=1 || k==0)
+            return;
+
+        for(int cur=sz-1, prev, tmp=nums[cur], init=sz-1, cnt=0;  cur>=0 && cnt<sz; cnt++)
+        {
+            prev = (cur-k)>=0 ? (cur-k) : (cur-k+sz);
+            if(prev>cur && prev==init)
+            {
+                nums[cur] = tmp;
+                init--;
+                cur=init;
+                tmp = nums[cur];
+            }
+            else
+            {
+                nums[cur] = nums[prev];
+                cur = prev;
+            }
+        }
+    }
 };
 
 int main()
 {
     Solution s;
-    std::vector<int> v{1,2,3,4,5,6};
-    s.rotate(v, 2);
+    std::vector<int> v{1,2,3};
+    s.rotate_back(v, 2);
     for(auto n : v)
         std::cout<<n<<std::endl;
     return 0;
