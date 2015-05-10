@@ -50,4 +50,5 @@ add_executable(binary_right_side_view binary_right_side_view.cpp)
 add_executable(house_robber house_robber.cpp)
 add_executable(number_of_1_bits number_of_1_bits.cpp)
 add_executable(reverse_bits reverse_bits.cpp)
+add_executable(rotate_array rotate_array.cpp)
 
