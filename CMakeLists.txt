@@ -47,4 +47,5 @@ add_executable(range_bitwise_and range_bitwise_and.cpp)
 add_executable(bit_operation bit_operation.cpp)
 add_executable(number_of_land number_of_land.cpp)
 add_executable(binary_right_side_view binary_right_side_view.cpp)
+add_executable(house_robber house_robber.cpp)
 
