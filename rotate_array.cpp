@@ -1,6 +1,7 @@
 #include<iostream>
 #include<cassert>
 #include<vector>
+#include<algorithm>
 
 class Solution
 {
@@ -73,13 +74,28 @@ public:
             }
         }
     }
+
+    //详细解释见geeksforgeeks
+    //AB-->ArB-->ArBr-->BA
+    void rotate_reverse(std::vector<int>& nums, int k)
+    {
+        int sz = nums.size();
+        k %= sz;
+        if(sz<=0 || k==0)
+            return;
+        std::reverse(nums.begin(), nums.begin()+(sz-k));
+        std::reverse(nums.begin()+(sz-k), nums.end());
+        std::reverse(nums.begin(), nums.end());
+    }
+
+    //Gries-Mills 算法，实际测量，性能最好
 };
 
 int main()
 {
     Solution s;
     std::vector<int> v{1,2,3};
-    s.rotate_back(v, 2);
+    s.rotate_reverse(v, 2);
     for(auto n : v)
         std::cout<<n<<std::endl;
     return 0;
