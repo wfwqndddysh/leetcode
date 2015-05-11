@@ -1,6 +1,6 @@
 #include<iostream>
 #include<cassert>
-#include<vector> 
+#include<vector>
 
 class Solution
 {
