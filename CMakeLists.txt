@@ -51,4 +51,5 @@ add_executable(house_robber house_robber.cpp)
 add_executable(number_of_1_bits number_of_1_bits.cpp)
 add_executable(reverse_bits reverse_bits.cpp)
 add_executable(rotate_array rotate_array.cpp)
+add_executable(best_time_to_buy_and_sell_stock best_time_to_buy_and_sell_stock.cpp)
 
