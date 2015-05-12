@@ -1,10 +1,11 @@
 #include<iostream>
 #include<cassert>
-#include<vector> 
+#include<vector>
 
 class Solution
 {
 public:
+    //最直接的方法
     int maxProfit(std::vector<int>& prices)
     {
         if(prices.size()<2)
@@ -15,11 +16,11 @@ public:
 
         for(size_t i=2; i<prices.size(); ++i)
         {
-            if((prices[i]-cur_low)> money)
+            if((prices[i]-cur_low)>money)
             {
                 money = prices[i]-cur_low;
             }
-            else if(prices[i]-cur_low<0)
+            else if(prices[i]<cur_low)
             {
                 cur_low = prices[i];
             }

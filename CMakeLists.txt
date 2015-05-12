@@ -53,4 +53,6 @@ add_executable(reverse_bits reverse_bits.cpp)
 add_executable(rotate_array rotate_array.cpp)
 add_executable(best_time_to_buy_and_sell_stock best_time_to_buy_and_sell_stock.cpp)
 add_executable(best_time_to_buy_and_sell_stock_2 best_time_to_buy_and_sell_stock_2.cpp)
+add_executable(best_time_to_buy_and_sell_stock_3 best_time_to_buy_and_sell_stock_3.cpp)
+add_executable(best_time_to_buy_and_sell_stock_4 best_time_to_buy_and_sell_stock_4.cpp)
 
