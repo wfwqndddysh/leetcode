@@ -62,6 +62,36 @@ public:
         return global[k];
     }
 
+    int maxProfit_no_space_optimize(int k, std::vector<int>& prices)
+    {
+        auto sz = prices.size();
+        if(sz<=1)
+            return 0;
+
+        if(k>=(int)sz)
+            return btbss_3(prices);
+
+
+        std::vector<std::vector<int>> local(sz);
+        std::vector<std::vector<int>> global(sz);
+        for(size_t i=0; i<sz; ++i)
+        {
+            local[i].resize(k+1, 0);
+            global[i].resize(k+1, 0);
+        }
+
+        for(int i=1; i<(int)prices.size(); ++i)
+        {
+            int diff = prices[i]-prices[i-1];
+            for(int j=1; j<=k; ++j)
+            {
+                local[i][j] = std::max(global[i-1][j-1]+std::max(diff, 0), local[i-1][j]+diff);
+                global[i][j] = std::max(local[i][j], global[i-1][j]);
+            }
+        }
+        return global[sz-1][k];
+    }
+
     int btbss_3(std::vector<int>& prices)
     {
         int max_profit = 0;
@@ -73,15 +103,13 @@ public:
         }
         return max_profit;
     }
-
-
 };
 
 int main()
 {
     Solution s;
     std::vector<int> stock {3,2,6,5,0,3};
-    std::cout<<s.maxProfit(2, stock)<<std::endl;
+    std::cout<<s.maxProfit_no_space_optimize(2, stock)<<std::endl;
     return 0;
 }
 
