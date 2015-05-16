@@ -1,0 +1,6 @@
+cnt count 计数
+
+sz size 容器大小
+
+travel 遍历
+
