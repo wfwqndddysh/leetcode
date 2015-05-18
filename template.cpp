@@ -8,6 +8,8 @@ public:
 
 int main()
 {
+    Solution s;
+    std::cout<<std::endl;
     return 0;
 }
 
