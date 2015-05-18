@@ -43,12 +43,12 @@ public:
                 else if(r==0)
                 {
                     const auto& right = mini_hp[r][c-1];
-                    mini_hp[r][c] = do_one(dungeon[r][c], right);
+                    do_one(dungeon[r][c], right, mini_hp[r][c]);
                 }
                 else if(c==0)
                 {
                     const auto& up = mini_hp[r-1][c];
-                    mini_hp[r][c] = do_one(dungeon[r][c], up);
+                    do_one(dungeon[r][c], up, mini_hp[r][c]);
                 }
                 else
                 {
@@ -67,35 +67,122 @@ public:
             , const Elem& right
             , Elem& cur)
     {
-        if(hp>=0)
+        Elem from_up;
+        Elem from_right;
+
+        do_one(hp, up, from_up);
+        do_one(hp, right, from_right);
+
+        int mini_up = std::get<0>(from_up);
+        int mini_up_hp = std::get<1>(from_up);
+        int mini_right = std::get<0>(from_right);
+        int mini_right_hp = std::get<1>(from_right);
+
+        if(mini_up < mini_right)
         {
-            const auto& prev = up.first<right.first ? up : right;
-            cur.first = prev.first;
-            cur.second = prev.second + hp;
+            std::get<0>(cur) = mini_up;
+            std::get<1>(cur) = mini_up_hp;
+        }
+        else if(mini_up > mini_right)
+        {
+            std::get<0>(cur) = mini_right;
+            std::get<1>(cur) = mini_right_hp;
         }
         else
         {
-            const auto from_up = do_one(hp, up);
-            const auto from_right = do_one(hp, right);
-            cur = from_up.first < from_right.first ? from_up : from_right;
+            if(mini_up_hp > mini_right_hp)
+            {
+                std::get<0>(cur) = mini_up;
+                std::get<1>(cur) = mini_up_hp;
+            }
+            else
+            {
+                std::get<0>(cur) = mini_right;
+                std::get<1>(cur) = mini_right_hp;
+            }
+        }
+
+        int more_hp_up = std::get<2>(from_up);
+        int more_hp_up_hp = std::get<3>(from_up);
+        int more_hp_right = std::get<2>(from_right);
+        int more_hp_right_hp = std::get<3>(from_right);
+
+        if(more_hp_up_hp-more_hp_up>more_hp_right_hp-more_hp_right)
+        {
+            std::get<2>(cur) = more_hp_up;
+            std::get<3>(cur) = more_hp_up_hp;
+        }
+        else if(more_hp_up_hp-more_hp_up<more_hp_right_hp-more_hp_right)
+        {
+            std::get<2>(cur) = more_hp_right;
+            std::get<3>(cur) = more_hp_right_hp;
+        }
+        else
+        {
+            if(more_hp_up<more_hp_right)
+            {
+                std::get<2>(cur) = more_hp_up;
+                std::get<3>(cur) = more_hp_up_hp;
+            }
+            else
+            {
+                std::get<2>(cur) = more_hp_right;
+                std::get<3>(cur) = more_hp_right_hp;
+            }
         }
     }
 
-    std::pair<int, int, int, int> do_one(int hp, const std::pair<int, int, int, int>& prev)
+    void do_one(int hp, const Elem& prev, Elem& cur)
     {
-        std::pair<int, int> ret;
-        int diff = prev.second+hp;
+        int a=0;
+        int b=0;
+        int c=0;
+        int d=0;
+
+        int diff = std::get<1>(prev)+hp;
         if(diff>0)
         {
-            ret.first = prev.first;
-            ret.second = diff;
+            a = std::get<0>(prev);
+            b = diff;
         }
         else
         {
-            ret.first = prev.first+std::abs(diff)+1;
-            ret.second = 1;
+            a = std::get<0>(prev)+std::abs(diff)+1;
+            b = 1;
         }
-        return ret;
+
+        diff = std::get<3>(prev)+hp;
+        if(diff>0)
+        {
+            c = std::get<2>(prev);
+            d = diff;
+        }
+        else
+        {
+            c = std::get<2>(prev)+std::abs(diff)+1;
+            d = 1;
+        }
+
+        if((d-c)<(b-a))
+        {
+            c = a;
+            d = b;
+        }
+
+        if(c<a)
+        {
+            int tmp = a;
+            a = c;
+            c = tmp;
+            tmp = b;
+            b = d;
+            d = tmp;
+        }
+
+        std::get<0>(cur) = a;
+        std::get<1>(cur) = b;
+        std::get<2>(cur) = c;
+        std::get<3>(cur) = d;
     }
 private:
 };
@@ -105,7 +192,8 @@ int main()
     Solution s;
     //std::vector<std::vector<int>> dungeon {{0,-3}};
     //std::vector<std::vector<int>> dungeon {{0,5}, {-2, -3}};
-    std::vector<std::vector<int>> dungeon {{1}, {-2}, {1}};
+    //std::vector<std::vector<int>> dungeon {{1}, {-2}, {1}};
+    std::vector<std::vector<int>> dungeon {{1, -3, 3}, {0, -2, 0}, {-3, -3, -3}};
     std::cout<<s.calculateMinimumHP(dungeon)<<std::endl;
     return 0;
 }
