@@ -184,7 +184,32 @@ public:
         std::get<2>(cur) = c;
         std::get<3>(cur) = d;
     }
-private:
+
+    //其实这个题的关键之一在于你需要从后往前算，而不是从前王后，像上面一样
+    //关键之二是需要归纳的是在hp[r][c]代表的是在r,c处需要的最小值
+    //从前往后更容易想到，但是从后往前更加简单
+    int calculateMinimumHP_back(std::vector<std::vector<int>>& dungeon)
+    {
+        if(dungeon.size()==0 || dungeon[0].size()==0)
+            return 0;
+
+        int rows = dungeon.size();
+        int columns = dungeon.front().size();
+        //使用dummy技术使得代码清晰是非常重要的
+        std::vector<std::vector<int>> hp(rows+1, std::vector<int>(columns+1, INT_MAX));
+        hp[rows][columns-1] = 1;
+        hp[rows-1][columns] = 1;
+
+        for(int r=rows-1; r>=0; --r)
+        {
+            for(int c=columns-1; c>=0; --c)
+            {
+                int need = std::min(hp[r][c+1], hp[r+1][c])-dungeon[r][c];
+                hp[r][c] = need <=0 ? 1 : need;
+            }
+        }
+        return hp[0][0];
+    }
 };
 
 int main()
