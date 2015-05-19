@@ -59,4 +59,5 @@ add_executable(repeated_dns_sequences repeated_dns_sequences.cpp)
 add_executable(largest_number largest_number.cpp)
 add_executable(dungeon_game dungeon_game.cpp)
 add_executable(binary_search_tree_iterator binary_search_tree_iterator.cpp)
+add_executable(factorial_trailing_zeroes factorial_trailing_zeroes.cpp)
 
