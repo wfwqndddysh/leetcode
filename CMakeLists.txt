@@ -58,4 +58,5 @@ add_executable(best_time_to_buy_and_sell_stock_4 best_time_to_buy_and_sell_stock
 add_executable(repeated_dns_sequences repeated_dns_sequences.cpp)
 add_executable(largest_number largest_number.cpp)
 add_executable(dungeon_game dungeon_game.cpp)
+add_executable(binary_search_tree_iterator binary_search_tree_iterator.cpp)
 
