@@ -63,4 +63,5 @@ add_executable(factorial_trailing_zeroes factorial_trailing_zeroes.cpp)
 add_executable(excel_sheet_column_cumber excel_sheet_column_cumber.cpp)
 add_executable(majority_element majority_element.cpp)
 add_executable(excel_sheet_solumn_title excel_sheet_solumn_title.cpp)
+add_executable(fraction_to_recurring_decimal fraction_to_recurring_decimal.cpp)
 
