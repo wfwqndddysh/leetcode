@@ -7,7 +7,7 @@
 class Solution
 {
 public:
-    std::string fractionToDecimal(int numerator, int denominator)
+    std::string fractionToDecimal_my(int numerator, int denominator)
     {
         assert(denominator!=0);
         std::string ret;
@@ -76,6 +76,45 @@ public:
         }
         return ret;
     }
+
+    //more simple
+    std::string fractionToDecimal_(int numerator, int denominator)
+    {
+        std::string ret;
+        if(numerator==0) return ret;
+
+        if((long)numerator < 0 ^ (long)denominator < 0) ret += '-';
+
+        long long numerator_ = std::abs((long)numerator);
+        long long denominator_ = std::abs((long)denominator);
+
+        //before dot
+        long long q = numerator_ / denominator_;
+        long long m = numerator_ %  denominator_;
+
+        ret += std::to_string(q);
+        if(m==0) return ret;
+
+        ret += '.';
+
+        //after dot
+        std::unordered_map<int, int> m2index;
+        while(m!=0)
+        {
+            if(m2index.count(m)>0)
+            {
+                ret.insert(m2index[m], 1, '(');
+                ret += ')';
+                break;
+            }
+
+            m2index[m] = ret.size();
+            m *= 10;
+            ret += std::to_string(m / denominator_);
+            m %= denominator_;
+        }
+        return ret;
+    }
 };
 
 int main()
@@ -85,7 +124,8 @@ int main()
     //std::cout<<s.fractionToDecimal(1, 6)<<std::endl;
     //std::cout<<s.fractionToDecimal(-50, 8)<<std::endl;
     //std::cout<<s.fractionToDecimal(7, -12)<<std::endl;
-    std::cout<<s.fractionToDecimal(-1, -2147483648)<<std::endl;
+    //std::cout<<s.fractionToDecimal(-1, -2147483648)<<std::endl;
+    std::cout<<s.fractionToDecimal_(1, 5)<<std::endl;
     return 0;
 }
 
