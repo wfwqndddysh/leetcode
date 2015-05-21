@@ -54,18 +54,47 @@ public:
         return max_gap;
     }
 
-    int maximumGap_sort(const std::vector<int>& nums)
+    int maximumGap_sort(std::vector<int>& nums)
     {
-        return 0;
+        auto sz = nums.size();
+        if(sz<2)
+        {
+            return 0;
+        }
+
+        radix_sort(nums);
+
+        int max_gap = 0;
+        for(size_t i=1; i<nums.size(); ++i)
+        {
+            max_gap = std::max(max_gap, nums[i]-nums[i-1]);
+        }
+        return max_gap;
     }
 
     void radix_sort(std::vector<int>& nums)
     {
+        int max_n = INT_MIN;
+        for(int n : nums)
+        {
+            max_n = std::max(max_n, n);
+        }
+
+        for(int nd=1; max_n/nd>0; nd*=10)
+        {
+            count_sort(nums, nd);
+        }
     }
 
     //see introductoin to algorithm
-    std::vector<int> count_sort(const std::vector<int>& A, int max_val)
+    std::vector<int> count_sort(const std::vector<int>& A)
     {
+        int max_val = INT_MIN;;
+        for(int n : A)
+        {
+            max_val = std::max(n, max_val);
+        }
+
         std::vector<int> C(max_val+1, 0);
         std::vector<int> B(A.size(), 0);
 
@@ -87,78 +116,36 @@ public:
         return B;
     }
 
+    void count_sort(std::vector<int>& A, int nd)
+    {
+        std::vector<int> C(10, 0);
+        std::vector<int> B(A.size(), 0);
 
-};
+        for(int n : A)
+        {
+            C[n/nd%10]++;
+        }
 
+        for(size_t i=1; i<C.size(); ++i)
+        {
+            C[i] += C[i-1];
+        }
 
-using namespace std;
-class Solution_
-{
-public:
-    int getMax(vector<int> num){
-        int m = INT_MIN;
-        for (int i=0;i<num.size();i++){
-            m = max(m,num[i]);
+        for(int i=A.size()-1; i>=0; --i)
+        {
+            int cmp = (A[i]/nd)%10;
+            B[C[cmp]-1] = A[i];
+            C[cmp]--;
         }
-        return m;
-    }
-     
-    void countSort(vector<int> &num, int nd){
-        int n = num.size();
-        vector<int> output(n,0);
-        vector<int> count(10,0);
-  
-        for (int i = 0; i < n; i++){
-            count[ (num[i]/nd)%10 ]++;
-        }
-  
-        for (int i = 1; i < 10; i++){
-            count[i] += count[i - 1];
-        }
-  
-        for (int i = n - 1; i >= 0; i--){
-            output[ count[(num[i]/nd)%10] - 1] = num[i];
-            count[ (num[i]/nd)%10 ]--;
-        }
-  
-        for (int i = 0; i < n; i++){
-            num[i] = output[i];
-        }
-    }
- 
-    void radixsort(vector<int> &num){
-         int max_n = getMax(num);
-         for (int nd = 1; max_n/nd > 0; nd *= 10){
-             countSort(num, nd);
-         }
-    }
-     
-    int maximumGap(vector<int> &num) {
-        if (num.size()<2){
-            return 0;
-        }
-        radixsort(num);
-        int res = abs(num[1] - num[0]);
-        for (int i=2;i<num.size();i++){
-            if (num[i]-num[i-1]>res){
-                res = abs(num[i] - num[i-1]);
-            }
-        }
-        return res;
-         
+        A=B;
     }
 };
 
 int main()
 {
     Solution s;
-    //std::cout<<s.maximumGap({1,10000000})<<std::endl;
-    std::vector<int> v{1, 123, 2341, 2234, 523, 34, 36, 1234};
-    auto r = s.count_sort(v, 2341);
-    for(int x : r)
-    {
-        std::cout<<x<<std::endl;
-    }
+    std::vector<int> v{100, 3, 2, 1};
+    std::cout<<s.maximumGap_sort(v)<<std::endl;
     return 0;
 }
 

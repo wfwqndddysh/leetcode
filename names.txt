@@ -12,3 +12,5 @@ location loc
 step
 value val
 iterator
+output
+peak
