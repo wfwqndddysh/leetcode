@@ -65,4 +65,5 @@ add_executable(majority_element majority_element.cpp)
 add_executable(excel_sheet_solumn_title excel_sheet_solumn_title.cpp)
 add_executable(fraction_to_recurring_decimal fraction_to_recurring_decimal.cpp)
 add_executable(compare_version_numbers compare_version_numbers.cpp)
+add_executable(maximum_gap maximum_gap.cpp)
 
