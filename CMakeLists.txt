@@ -67,4 +67,5 @@ add_executable(fraction_to_recurring_decimal fraction_to_recurring_decimal.cpp)
 add_executable(compare_version_numbers compare_version_numbers.cpp)
 add_executable(maximum_gap maximum_gap.cpp)
 add_executable(find_peak_element find_peak_element.cpp)
+add_executable(intersection_of_two_linked_lists intersection_of_two_linked_lists.cpp)
 
