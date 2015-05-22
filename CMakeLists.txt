@@ -70,4 +70,5 @@ add_executable(find_peak_element find_peak_element.cpp)
 add_executable(intersection_of_two_linked_lists intersection_of_two_linked_lists.cpp)
 add_executable(min_stack min_stack.cpp)
 add_executable(find_minimum_in_rotated_sorted_array find_minimum_in_rotated_sorted_array.cpp)
+add_executable(find_minimum_in_rotated_sorted_array_2 find_minimum_in_rotated_sorted_array_2.cpp)
 
