@@ -31,20 +31,25 @@ public:
         while(beg<=end)
         {
             mid = beg + (end-beg)/2;
-            if(mid==beg && mid==end)
+            if(beg==end)
             {
-                return mid;
+                return beg;
             }
-            else if(mid==beg)
+            else if(beg+1==end)
             {
+                return nums[beg]>nums[end] ? beg : end;
             }
             else if(nums[mid-1]>nums[mid])
             {
-                end = mid-1;;
+                end = mid;
+            }
+            else if(nums[mid+1]>nums[mid])
+            {
+                beg = mid;
             }
             else
             {
-                beg = mid;
+                return mid;
             }
         }
         return mid;
@@ -54,7 +59,7 @@ public:
 int main()
 {
     Solution s;
-    std::cout<<s.findPeakElement_binary({1, 2})<<std::endl;
+    std::cout<<s.findPeakElement_binary({1, 2, 1})<<std::endl;
     return 0;
 }
 
