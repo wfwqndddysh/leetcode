@@ -7,6 +7,7 @@ struct ListNode
     int val;
     ListNode *next;
     ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode* n) : val(x), next(n) {}
 };
 
 class Solution
@@ -29,20 +30,44 @@ public:
             headB = headB->next;
         }
 
-        while(headA!=headB && headA!=nullptr && headB!=nullptr)
+        while(headA!=headB)
         {
             headA = headA->next;
             headB = headB->next;
         }
         return headA;
     }
+
+    //leetcode 看起来简单，但是时间复杂度并不比上面的低
+    ListNode *getIntersectionNode_(ListNode *headA, ListNode *headB)
+    {
+        ListNode *ptrA = headA, *ptrB = headB;
+        while (ptrA != ptrB)
+        {
+            ptrA = ptrA ? ptrA->next : headB;
+            ptrB = ptrB ? ptrB->next : headA;
+        }
+        return ptrA;
+    }
 };
 
 int main()
 {
+    ListNode a(1);
+    ListNode b(2, &a);
+    ListNode c(3, &b);
+    ListNode d(4, &c);
+    ListNode e(5, &d);
+    ListNode f(6, &e);
+    ListNode g(7, &e);
+    ListNode h(8, &g);
+    ListNode i(9, &h);
+
+    ListNode o(11, &c);
+    ListNode p(12, &o);
+
     Solution s;
-    std::cout<<std::endl;
+    std::cout<<s.getIntersectionNode_(&p, &i)->val<<std::endl;
     return 0;
 }
-
 
