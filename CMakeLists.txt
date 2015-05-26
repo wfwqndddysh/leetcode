@@ -76,4 +76,5 @@ add_executable(reverse_words_in_a_string reverse_words_in_a_string.cpp)
 add_executable(evaluate_reverse_polish_notation evaluate_reverse_polish_notation.cpp)
 add_executable(max_points_on_a_line max_points_on_a_line.cpp)
 add_executable(sort_list sort_list.cpp)
+add_executable(insertion_sort_list insertion_sort_list.cpp)
 
