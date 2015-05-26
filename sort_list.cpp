@@ -1,5 +1,6 @@
 #include<iostream>
 #include<cassert>
+#include<vector>
 
 struct ListNode
 {
@@ -7,7 +8,27 @@ struct ListNode
      ListNode *next;
      ListNode(int x) : val(x), next(NULL) {}
      ListNode(int x, ListNode* n) : val(x), next(n) {}
- };
+};
+
+ListNode* make_list(const std::vector<int>& nums)
+{
+    ListNode* head = nullptr;
+    ListNode* cur = head;
+    for(auto n : nums)
+    {
+        ListNode* l = new ListNode(n);
+        if(!head)
+        {
+            head = cur = l;
+        }
+        else
+        {
+            cur->next =  l;
+            cur = l;
+        }
+    }
+    return head;
+}
 
 class Solution
 {
@@ -25,7 +46,7 @@ public:
             ListNode* last = new_head;
 
             bool be_fisrt = true;
-            for(size_t i=1; i<=len && next_l; i*=step*2)
+            for(size_t i=1; i<=len && next_l; i+=step*2)
             {
                 l = r = next_l;
                 for(size_t cnt=0; cnt<step && r; ++cnt)
@@ -121,26 +142,20 @@ public:
 int main()
 {
     Solution s;
-
-    /*
-    ListNode a(1);
-    ListNode b(2, &a);
-    ListNode a(4);
-    ListNode b(2, &a);
-    ListNode c(3, &b);
-    auto l = s.sortList(&c);
-    */
-
-    ListNode a(1);
-    ListNode b(2, &a);
-    ListNode c(-3, &b);
-    ListNode d(4, &c);
-    ListNode e(-5, &d);
-    ListNode f(6, &e);
-    ListNode g(-10000, &g);
-    auto l = s.sortList(&g);
-    for(; l; l=l->next)
-        std::cout<<l->val<<std::endl;
+    //ListNode* l = make_list({1});
+    //ListNode* l = make_list({2, 1});
+    //ListNode* l = make_list({3, 2, 1});
+    //ListNode* l = make_list({4, 3, 2, 1});
+    //ListNode* l = make_list({5, 4, 3, 2, 1});
+    //ListNode* l = make_list({6, 5, 4, 3, 2, 1});
+    //ListNode* l = make_list({7, 6, 5, 4, 3, 2, 1});
+    //ListNode* l = make_list({8, 7, 6, 5, 4, 3, 2, 1});
+    //ListNode* l = make_list({9, 8, 7, 6, 5, 4, 3, 2, 1});
+    //ListNode* l = make_list({-85,142,41,-17,-71,170,186,183,-21,-76,76});
+    ListNode* l = make_list({-84,142,41,-17,-71,170,186,183,-21,-76,76,10,29,81,112,-39,-6,-43,58,41,111,33,69,97,-38,82,-44,-7,99,135,42,150,149,-21,-30,164,153,92,180,-61,99,-81,147,109,34,98,14,178,105,5,43,46,40,-37,23,16,123,-53,34,192,-73,94,39,96,115,88,-31,-96,106,131,64,189,-91,-34,-56,-22,105,104,22,-31,-43,90,96,65,-85,184,85,90,118,152,-31,161,22,104,-85,160,120,-31,144,115});
+    auto r = s.sortList(l);
+    for(; r; r=r->next)
+        std::cout<<r->val<<std::endl;
     return 0;
 }
 
