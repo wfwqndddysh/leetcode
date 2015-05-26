@@ -1,15 +1,97 @@
 #include<iostream>
 #include<cassert>
+#include<vector>
+#include<string>
+#include<stack>
+#include<map>
+#include<cassert>
 
 class Solution
 {
 public:
+    int evalRPN(std::vector<std::string>& tokens)
+    {
+        assert(tokens.size()>0);
+
+        auto sz=tokens.size();
+        std::stack<std::pair<bool, int>> expression;
+
+        for(int i=sz-1; i>=0; --i)
+        {
+            if(be_sign(tokens[i]))
+            {
+                expression.push(std::make_pair(true, tokens[i][0]));
+            }
+            else
+            {
+                if(!expression.empty() && !expression.top().first)
+                {
+                    int a = std::stoi(tokens[i]);
+                    int b = expression.top().second;
+                    expression.pop();
+                    int val = eval(a, b, expression.top().second);
+                    expression.pop();
+
+                    while(!expression.empty() && !expression.top().first)
+                    {
+                        b = expression.top().second;
+                        expression.pop();
+                        val = eval(val, b, expression.top().second);
+                        expression.pop();
+                    }
+                    expression.push(std::make_pair(false, val));
+                }
+                else
+                {
+                    expression.push(std::make_pair(false, stoi(tokens[i])));
+                }
+            }
+        }
+
+        while(expression.size()>1)
+        {
+            int a = expression.top().second;
+            expression.pop();
+            int b = expression.top().second;
+            expression.pop();
+            int val = eval(a, b, expression.top().second);
+            expression.pop();
+            expression.push(std::make_pair(false, val));
+        }
+        return expression.top().second;
+    }
+
+    bool be_sign(const std::string& s)
+    {
+        return s=="+" || s=="-" || s=="*" || s=="/";
+    }
+
+    int eval(int a, int b, int sign)
+    {
+        switch(sign)
+        {
+            case '+':
+                return a+b;
+            case '-':
+                return a-b;
+            case '*':
+                return a*b;
+            case '/':
+                return a/b;
+            default:
+                std::cout<<"impossible to reach here"<<std::endl;
+                return -1;
+        }
+    }
 };
 
 int main()
 {
     Solution s;
-    std::cout<<std::endl;
+    //std::vector<std::string> tokens {"2", "1", "+", "3", "*"};
+    //std::vector<std::string> tokens {"4", "13", "5", "/", "+"};
+    std::vector<std::string> tokens {"-78","-33","196","+","-19","-","115","+","-","-99","/","-18","8","*","-86","-","-","16","/","26","-14","-","-","47","-","101","-","163","*","143","-","0","-","171","+","120","*","-60","+","156","/","173","/","-24","11","+","21","/","*","44","*","180","70","-40","-","*","86","132","-84","+","*","-","38","/","/","21","28","/","+","83","/","-31","156","-","+","28","/","95","-","120","+","8","*","90","-","-94","*","-73","/","-62","/","93","*","196","-","-59","+","187","-","143","/","-79","-89","+","-"};
+    std::cout<<s.evalRPN(tokens)<<std::endl;
     return 0;
 }
 
