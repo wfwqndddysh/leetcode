@@ -61,6 +61,22 @@ public:
                 return -1;
         }
     }
+
+    int evalRPN_rec(std::vector<std::string>& tokens)
+    {
+        const std::string s = tokens.back();
+        tokens.pop_back();
+        if(be_sign(s))
+        {
+            int r2 = evalRPN_rec(tokens);
+            int r1 = evalRPN_rec(tokens);
+            return eval(r1, r2, s[0]);
+        }
+        else
+        {
+            return std::stoi(s);
+        }
+    }
 };
 
 int main()
@@ -69,7 +85,7 @@ int main()
     //std::vector<std::string> tokens {"2", "1", "+", "3", "*"};
     //std::vector<std::string> tokens {"4", "13", "5", "/", "+"};
     std::vector<std::string> tokens {"-78","-33","196","+","-19","-","115","+","-","-99","/","-18","8","*","-86","-","-","16","/","26","-14","-","-","47","-","101","-","163","*","143","-","0","-","171","+","120","*","-60","+","156","/","173","/","-24","11","+","21","/","*","44","*","180","70","-40","-","*","86","132","-84","+","*","-","38","/","/","21","28","/","+","83","/","-31","156","-","+","28","/","95","-","120","+","8","*","90","-","-94","*","-73","/","-62","/","93","*","196","-","-59","+","187","-","143","/","-79","-89","+","-"};
-    std::cout<<s.evalRPN(tokens)<<std::endl;
+    std::cout<<s.evalRPN_rec(tokens)<<std::endl;
     return 0;
 }
 
