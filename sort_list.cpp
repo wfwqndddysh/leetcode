@@ -30,6 +30,14 @@ ListNode* make_list(const std::vector<int>& nums)
     return head;
 }
 
+/*
+想到了merge sort， 就可以实现
+抽象出了merge_list，
+
+没有想到使用dummy使代码简介
+没有继续简化代码抽象出调试了很久的那段代码为split
+没有想到使用nullptr来简化代码，而不是始终使用len限定范围
+*/
 class Solution
 {
 public:
@@ -43,7 +51,7 @@ public:
             ListNode* l = new_head;
             ListNode* r = new_head;
             ListNode* next_l = new_head;
-            ListNode* last = new_head;
+            ListNode* tail = new_head;
 
             bool be_fisrt = true;
             for(size_t i=1; i<=len && next_l; i+=step*2)
@@ -59,8 +67,8 @@ public:
                 for(size_t cnt=0; cnt<step && next_l; ++cnt)
                     next_l = next_l->next;
 
-                ListNode* new_last = nullptr;
-                auto h = merge_list(l, r, step, &new_last);
+                ListNode* new_tail = nullptr;
+                auto h = merge_list(l, r, step, &new_tail);
                 if(be_fisrt)
                 {
                     new_head = h;
@@ -68,15 +76,15 @@ public:
                 }
                 else
                 {
-                    last->next = h;
+                    tail->next = h;
                 }
-                last = new_last;
+                tail = new_tail;
             }
         }
         return new_head;
     }
 
-    ListNode* merge_list(ListNode* l, ListNode* r, size_t len, ListNode** new_last)
+    ListNode* merge_list(ListNode* l, ListNode* r, size_t len, ListNode** new_tail)
     {
         ListNode* head = nullptr;
         ListNode* prev = nullptr;
@@ -123,7 +131,7 @@ public:
         }
         prev->next = r;
 
-        *new_last = prev;
+        *new_tail = prev;
         return head;
     }
 
