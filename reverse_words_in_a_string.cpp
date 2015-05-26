@@ -5,6 +5,7 @@
 //这个问题的思路在于先reverse整个string,再reverse每个string
 //关于去掉头尾和中间dup的space，维护两个 read/write pointer 就够了
 
+//http://www.ardendertat.com/2011/10/31/programming-interview-questions-12-reverse-words-in-a-string/
 class Solution
 {
 public:
