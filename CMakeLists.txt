@@ -77,4 +77,5 @@ add_executable(evaluate_reverse_polish_notation evaluate_reverse_polish_notation
 add_executable(max_points_on_a_line max_points_on_a_line.cpp)
 add_executable(sort_list sort_list.cpp)
 add_executable(insertion_sort_list insertion_sort_list.cpp)
+add_executable(lru_cache lru_cache.cpp)
 
