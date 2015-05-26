@@ -24,40 +24,18 @@ public:
             }
             else
             {
-                if(!expression.empty() && !expression.top().first)
+                int a = std::stoi(tokens[i]);
+                while(!expression.empty() && !expression.top().first)
                 {
-                    int a = std::stoi(tokens[i]);
                     int b = expression.top().second;
                     expression.pop();
-                    int val = eval(a, b, expression.top().second);
+                    a = eval(a, b, expression.top().second);
                     expression.pop();
-
-                    while(!expression.empty() && !expression.top().first)
-                    {
-                        b = expression.top().second;
-                        expression.pop();
-                        val = eval(val, b, expression.top().second);
-                        expression.pop();
-                    }
-                    expression.push(std::make_pair(false, val));
                 }
-                else
-                {
-                    expression.push(std::make_pair(false, stoi(tokens[i])));
-                }
+                expression.push(std::make_pair(false, a));
             }
         }
 
-        while(expression.size()>1)
-        {
-            int a = expression.top().second;
-            expression.pop();
-            int b = expression.top().second;
-            expression.pop();
-            int val = eval(a, b, expression.top().second);
-            expression.pop();
-            expression.push(std::make_pair(false, val));
-        }
         return expression.top().second;
     }
 
