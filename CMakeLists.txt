@@ -74,4 +74,5 @@ add_executable(find_minimum_in_rotated_sorted_array_2 find_minimum_in_rotated_so
 add_executable(maximum_product_subarray maximum_product_subarray.cpp)
 add_executable(reverse_words_in_a_string reverse_words_in_a_string.cpp)
 add_executable(evaluate_reverse_polish_notation evaluate_reverse_polish_notation.cpp)
+add_executable(max_points_on_a_line max_points_on_a_line.cpp)
 
