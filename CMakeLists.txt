@@ -78,4 +78,5 @@ add_executable(max_points_on_a_line max_points_on_a_line.cpp)
 add_executable(sort_list sort_list.cpp)
 add_executable(insertion_sort_list insertion_sort_list.cpp)
 add_executable(lru_cache lru_cache.cpp)
+add_executable(binary_tree_postorder_traversal binary_tree_postorder_traversal.cpp)
 
