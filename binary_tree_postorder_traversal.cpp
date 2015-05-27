@@ -15,8 +15,21 @@ class Solution
 public:
     std::vector<int> postorderTraversal(TreeNode* root)
     {
+        std::vector<int> output;
+        rec(root, output);
+        return output;
     }
-}
+
+    void rec(TreeNode* root, std::vector<int>& output)
+    {
+        if(!root)
+            return;
+
+        rec(root->left, output);
+        rec(root->right, output);
+        output.push_back(root->val);
+    }
+};
 
 int main()
 {
