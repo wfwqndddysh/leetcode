@@ -11,10 +11,10 @@ struct ListNode
 class Solution
 {
 public:
-    bool hasCycle(ListNode *head)
+    ListNode* detectCycle(ListNode *head)
     {
         if(!head || !head->next || !head->next->next)
-            return false;
+            return nullptr;
 
         auto slow = head->next;
         auto fast = head->next->next;
@@ -25,14 +25,31 @@ public:
             fast = fast->next ? fast->next->next: fast->next;
         }
 
-        return slow==fast;
+        if(slow!=fast)
+            return nullptr;
+
+        // 2*(a+b+mc) = a+b+nc ====> a = nc-2mc-b;
+        for(fast = head; fast != slow; fast = fast->next)
+            slow = slow->next;
+
+        return slow;
     }
 };
 
 int main()
 {
     Solution s;
-    std::cout<<std::endl;
+    ListNode d(4);
+    ListNode c(2);
+    ListNode b(0);
+    ListNode a(3);
+
+    a.next = &b;
+    b.next = &c;
+    c.next = &d;
+    d.next = &b;
+
+    std::cout<<s.detectCycle(&d)<<std::endl;
     return 0;
 }
 

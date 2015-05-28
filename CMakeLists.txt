@@ -82,4 +82,6 @@ add_executable(binary_tree_postorder_traversal binary_tree_postorder_traversal.c
 add_executable(binary_tree_preorder_traversal binary_tree_preorder_traversal.cpp)
 add_executable(reorder_list reorder_list.cpp)
 add_executable(linked_list_cycle linked_list_cycle.cpp)
+add_executable(linked_list_cycle_2 linked_list_cycle_2.cpp)
+add_executable(word_break word_break.cpp)
 
