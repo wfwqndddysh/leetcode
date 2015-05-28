@@ -3,7 +3,14 @@
 #include<unordered_set>
 #include<string>
 #include<vector>
+#include<queue>
 
+//有几点值得我们学习
+/*
+1.从头开始，从长度1开始，不用计算所有长度为1的
+2.转化为图的问题，这个很赞
+3.优化，从后往前，计算有效长度很赞
+*/
 class Solution
 {
 public:
@@ -51,6 +58,100 @@ public:
         }
         return false;
     }
+
+    bool wordBreakLeetCode(std::string s, const std::unordered_set<std::string>& dict)
+    {
+        std::vector<bool> flag(s.size()+1, false);
+        flag[0] = true;
+
+        /*
+        for(size_t  i=1; i<=s.length(); i++)
+        {
+            for(const auto& str: dict)
+            {
+                auto len = str.length();
+                if(len <= i)
+                {
+                    if(flag[i-len])
+                    {
+                        if(s.substr(i-len, len)==str)
+                        {
+                            flag[i] = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        */
+
+        //Second DP
+        for(size_t i=1; i <= s.length(); i++)
+        {
+            for(size_t j=0; j < i; j++)
+            {
+                if(flag[j] && dict.count(s.substr(j, i-j))>0)
+                {
+                    flag[i] = true;
+                    break;
+                }
+            }
+        }
+
+        return flag[s.length()];
+    }
+
+    bool wordBreakBFS(std::string s, const std::unordered_set<std::string> &dict)
+    {
+        // BFS
+        using namespace std;
+        queue<int> BFS;
+        unordered_set<int> visited;
+
+        BFS.push(0);
+        while(BFS.size() > 0)
+        {
+            int start = BFS.front();
+            BFS.pop();
+            if(visited.find(start) == visited.end())
+            {
+                visited.insert(start);
+                for(size_t j=start; j<s.size(); j++)
+                {
+                    string word(s, start, j-start+1);
+                    if(dict.find(word) != dict.end())
+                    {
+                        BFS.push(j+1);
+                        if(j+1 == s.size())
+                            return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    bool wordBreak0ms(std::string s, std::unordered_set<std::string> &dict)
+    {
+        if (dict.empty())
+            return false;
+        size_t len = s.size(), max_len = dict.begin()->size(), min_len = max_len;
+        for (auto it = dict.begin(); it != dict.end(); ++it)
+            if (it->size() > max_len)
+                max_len = it->size();
+            else if (it->size() < min_len)
+                min_len = it->size();
+        std::vector<int> flag(len + 1);
+        flag[len] = 1;
+        for (int i = len - 1; i >= 0; --i)
+            for (int j = min_len; j <= std::min(max_len, len - i); ++j)
+                if (flag[i + j] && dict.find(s.substr(i, j)) != dict.end()) {
+                    flag[i] = 1;
+                    break;
+                }
+        return flag[0] == 1;
+    }
 };
 
 int main()
@@ -59,15 +160,10 @@ int main()
     //std::cout<<s.wordBreak("a", std::unordered_set<std::string>())<<std::endl;
     //auto ss="leetcode";
     //std::unordered_set<std::string> m{"leet", "code"};
-    //auto ss="fohhemkkaecojceoaejkkoedkofhmohkcjmkggcmnami";
-    //std::unordered_set<std::string> m{"kfomka","hecagbngambii","anobmnikj","c","nnkmfelneemfgcl","ah","bgomgohl","lcbjbg","ebjfoiddndih","hjknoamjbfhckb","eioldlijmmla","nbekmcnakif","fgahmihodolmhbi","gnjfe","hk","b","jbfgm","ecojceoaejkkoed","cemodhmbcmgl","j","gdcnjj","kolaijoicbc","liibjjcini","lmbenj","eklingemgdjncaa","m","hkh","fblb","fk","nnfkfanaga","eldjml","iejn","gbmjfdooeeko","jafogijka","ngnfggojmhclkjd","bfagnfclg","imkeobcdidiifbm","ogeo","gicjog","cjnibenelm","ogoloc","edciifkaff","kbeeg","nebn","jdd","aeojhclmdn","dilbhl","dkk","bgmck","ohgkefkadonafg","labem","fheoglj","gkcanacfjfhogjc","eglkcddd","lelelihakeh","hhjijfiodfi","enehbibnhfjd","gkm","ggj","ag","hhhjogk","lllicdhihn","goakjjnk","lhbn","fhheedadamlnedh","bin","cl","ggjljjjf","fdcdaobhlhgj","nijlf","i","gaemagobjfc","dg","g","jhlelodgeekj","hcimohlni","fdoiohikhacgb","k","doiaigclm","bdfaoncbhfkdbjd","f","jaikbciac","cjgadmfoodmba","molokllh","gfkngeebnggo","lahd","n","ehfngoc","lejfcee","kofhmoh","cgda","de","kljnicikjeh","edomdbibhif","jehdkgmmofihdi","hifcjkloebel","gcghgbemjege","kobhhefbbb","aaikgaolhllhlm","akg","kmmikgkhnn","dnamfhaf","mjhj","ifadcgmgjaa","acnjehgkflgkd","bjj","maihjn","ojakklhl","ign","jhd","kndkhbebgh","amljjfeahcdlfdg","fnboolobch","gcclgcoaojc","kfokbbkllmcd","fec","dljma","noa","cfjie","fohhemkka","bfaldajf","nbk","kmbnjoalnhki","ccieabbnlhbjmj","nmacelialookal","hdlefnbmgklo","bfbblofk","doohocnadd","klmed","e","hkkcmbljlojkghm","jjiadlgf","ogadjhambjikce","bglghjndlk","gackokkbhj","oofohdogb","leiolllnjj","edekdnibja","gjhglilocif","ccfnfjalchc","gl","ihee","cfgccdmecem","mdmcdgjelhgk","laboglchdhbk","ajmiim","cebhalkngloae","hgohednmkahdi","ddiecjnkmgbbei","ajaengmcdlbk","kgg","ndchkjdn","heklaamafiomea","ehg","imelcifnhkae","hcgadilb","elndjcodnhcc","nkjd","gjnfkogkjeobo","eolega","lm","jddfkfbbbhia","cddmfeckheeo","bfnmaalmjdb","fbcg","ko","mojfj","kk","bbljjnnikdhg","l","calbc","mkekn","ejlhdk","hkebdiebecf","emhelbbda","mlba","ckjmih","odfacclfl","lgfjjbgookmnoe","begnkogf","gakojeblk","bfflcmdko","cfdclljcg","ho","fo","acmi","oemknmffgcio","mlkhk","kfhkndmdojhidg","ckfcibmnikn","dgoecamdliaeeoa","ocealkbbec","kbmmihb","ncikad","hi","nccjbnldneijc","hgiccigeehmdl","dlfmjhmioa","kmff","gfhkd","okiamg","ekdbamm","fc","neg","cfmo","ccgahikbbl","khhoc","elbg","cbghbacjbfm","jkagbmfgemjfg","ijceidhhajmja","imibemhdg","ja","idkfd","ndogdkjjkf","fhic","ooajkki","fdnjhh","ba","jdlnidngkfffbmi","jddjfnnjoidcnm","kghljjikbacd","idllbbn","d","mgkajbnjedeiee","fbllleanknmoomb","lom","kofjmmjm","mcdlbglonin","gcnboanh","fggii","fdkbmic","bbiln","cdjcjhonjgiagkb","kooenbeoongcle","cecnlfbaanckdkj","fejlmog","fanekdneoaammb","maojbcegdamn","bcmanmjdeabdo","amloj","adgoej","jh","fhf","cogdljlgek","o","joeiajlioggj","oncal","lbgg","elainnbffk","hbdi","femcanllndoh","ke","hmib","nagfahhljh","ibifdlfeechcbal","knec","oegfcghlgalcnno","abiefmjldmln","mlfglgni","jkofhjeb","ifjbneblfldjel","nahhcimkjhjgb","cdgkbn","nnklfbeecgedie","gmllmjbodhgllc","hogollongjo","fmoinacebll","fkngbganmh","jgdblmhlmfij","fkkdjknahamcfb","aieakdokibj","hddlcdiailhd","iajhmg","jenocgo","embdib","dghbmljjogka","bahcggjgmlf","fb","jldkcfom","mfi","kdkke","odhbl","jin","kcjmkggcmnami","kofig","bid","ohnohi","fcbojdgoaoa","dj","ifkbmbod","dhdedohlghk","nmkeakohicfdjf","ahbifnnoaldgbj","egldeibiinoac","iehfhjjjmil","bmeimi","ombngooicknel","lfdkngobmik","ifjcjkfnmgjcnmi","fmf","aoeaa","an","ffgddcjblehhggo","hijfdcchdilcl","hacbaamkhblnkk","najefebghcbkjfl","hcnnlogjfmmjcma","njgcogemlnohl","ihejh","ej","ofn","ggcklj","omah","hg","obk","giig","cklna","lihaiollfnem","ionlnlhjckf","cfdlijnmgjoebl","dloehimen","acggkacahfhkdne","iecd","gn","odgbnalk","ahfhcd","dghlag","bchfe","dldblmnbifnmlo","cffhbijal","dbddifnojfibha","mhh","cjjol","fed","bhcnf","ciiibbedklnnk","ikniooicmm","ejf","ammeennkcdgbjco","jmhmd","cek","bjbhcmda","kfjmhbf","chjmmnea","ifccifn","naedmco","iohchafbega","kjejfhbco","anlhhhhg"};
 
     auto ss="a";
     std::unordered_set<std::string> m{"a"};
-
     std::cout<<s.wordBreak(ss, m)<<std::endl;
-
-
     return 0;
 }
 
