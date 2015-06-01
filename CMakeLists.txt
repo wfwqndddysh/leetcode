@@ -86,4 +86,5 @@ add_executable(linked_list_cycle_2 linked_list_cycle_2.cpp)
 add_executable(word_break word_break.cpp)
 add_executable(word_break_2 word_break_2.cpp)
 add_executable(copy_list_with_random_pointer copy_list_with_random_pointer.cpp)
+add_executable(single_number single_number.cpp)
 
