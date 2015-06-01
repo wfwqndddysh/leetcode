@@ -3,6 +3,11 @@
 #include<unordered_map>
 #include<vector>
 
+/*
+有一点需要注意，非hash方法处理不了链表有循环的情况;
+如果真要用非hash方法处理，遇到循环点时需要停止copy
+*/
+
 struct RandomListNode
 {
     int label;
@@ -80,9 +85,87 @@ private:
     }
 };
 
+class SolutionLeetCode
+{
+public:
+    RandomListNode *copyRandomList(RandomListNode *head)
+    {
+        copy_to_follow(head);
+        copy_random(head);
+        return get_follow(head);
+    }
+
+private:
+    void copy_to_follow(RandomListNode* head)
+    {
+        while(head)
+        {
+            auto next = head->next;
+            auto l = new RandomListNode(head->label);
+            head->next = l;
+            l->next = next;
+            head = next;
+        }
+    }
+
+    void copy_random(RandomListNode* head)
+    {
+        auto l_head = head ? head->next : head;
+        while(l_head)
+        {
+            l_head->random = head->random ? head->random->next : nullptr;
+            head = head->next->next;
+            l_head = l_head->next ? l_head->next->next : nullptr;
+        }
+    }
+
+    RandomListNode* get_follow(RandomListNode* head)
+    {
+        auto l_head = head ? head->next : head;
+        auto ret = l_head;
+        while(l_head)
+        {
+            head->next = head->next->next;
+            head = head->next;
+
+            l_head->next = l_head->next ? l_head->next->next : nullptr;
+            l_head = l_head->next;
+        }
+
+        return ret;
+    }
+};
+
+class SolutionLeetCodeCpp
+{
+public:
+    RandomListNode *copyRandomList(RandomListNode *head) {
+        RandomListNode *newHead, *l1, *l2;
+        if (head == NULL) return NULL;
+        for (l1 = head; l1 != NULL; l1 = l1->next->next) {
+            l2 = new RandomListNode(l1->label);
+            l2->next = l1->next;
+            l1->next = l2;
+        }
+
+        newHead = head->next;
+        for (l1 = head; l1 != NULL; l1 = l1->next->next) {
+            if (l1->random != NULL) l1->next->random = l1->random->next;
+        }
+
+        for (l1 = head; l1 != NULL; l1 = l1->next) {
+            l2 = l1->next;
+            l1->next = l2->next;
+            if (l2->next != NULL) l2->next = l2->next->next;
+        }
+
+        return newHead;
+    }
+};
+
 int main()
 {
-    Solution s;
+    SolutionLeetCode s;
 
     RandomListNode a(-1);
     RandomListNode b(-1);
