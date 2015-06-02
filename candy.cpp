@@ -1,85 +1,54 @@
 #include<iostream>
 #include<cassert>
 #include<vector>
+#include<climits>
+
 
 class Solution
 {
 public:
-    int candy(const std::vector<int>& ratings)
+    int candy_n_space(const std::vector<int>& ratings)
     {
-        ratings_ = ratings;
-        cnt_candy_ = 0;
+        auto sz=ratings.size();
+        if(sz<2) return sz;
 
-        //rec(0, ratings.size());
-        return cnt_candy_;
-    }
+        std::vector<size_t> candies(sz, 1);
 
-private:
-    void rec(size_t beg, size_t end, int l_rate, int l_candy, int r_rate, int r_candy)
-    {
-        if(beg<end)
-            return;
-
-        if(beg==end)
+        for(size_t i=1; i<sz; ++i)
         {
-            auto candy = 1;
-            auto rate = ratings_[beg];
-
-            candy = rate>l_rate ? l_candy+1 : l_candy;
-            candy = rate>r_rate ? std::max(candy, r_candy+1) : std::max(candy, r_candy);
+            if(ratings[i] > ratings[i-1])
+                candies[i] = candies[i-1] + 1;
         }
-        else
+        for(int i=sz-1; i>0; i--)
         {
-            size_t index = 0;
-            auto rate = find_min(beg, end, &index);
-            
-            if(index==beg)
-            {
-            }
-            else if(index==end)
-            {
-            }
-            else
-            {
-                auto n_end = index-1;
-                auto n_r_rate = rate;
-                auto n_r_candy = 1;
-                cnt_candy_ += 1;
-                rec(beg, n_end, l_rate, l_candy, n_r_rate, n_r_candy);
-
-                auto n_beg = index+1;
-                auto n_l_rate = rate;
-                auto n_l_candy = 1;
-                cnt_candy_ += 1;
-                rec(n_beg, end, n_l_rate, n_l_candy, r_rate, r_candy);
-            }
+            if(ratings[i-1]>ratings[i])
+                candies[i-1] = std::max(candies[i]+1, candies[i-1]);
         }
-    }
 
-    int find_min(size_t beg, size_t end, size_t* index)
-    {
-        *index = 0;
-        int min_rate =  ratings_[beg];
-        for(auto i=beg; i<=end; ++i)
-        {
-            if(ratings_[i]<min_rate)
-            {
-                min_rate = ratings_[i];
-                *index = i;
-            }
-        }
-        return min_rate;
-    }
+        int min_candies = 0;
 
-private:
-    std::vector<int> ratings_;
-    int cnt_candy_;
+        for(int n : candies)
+            min_candies += n;
+
+        return min_candies;
+    }
 };
 
 int main()
 {
     Solution s;
-    std::cout<<std::endl;
+    //std::vector<int> v {0};
+    //std::vector<int> v {2, 2};
+    //std::vector<int> v {1, 2, 2};
+    //std::vector<int> v {1, 2, 3};
+    //std::vector<int> v {1, 3, 2};
+    //std::vector<int> v {2, 1, 3};
+    //std::vector<int> v {2, 3, 1};
+    //std::vector<int> v {3, 1, 2};
+    //std::vector<int> v {3, 2, 1};
+
+    std::vector<int> v {58,21,72,77,48,9,38,71,68,77,82,47,25,94,89,54,26,54,54,99,64,71,76,63,81,82,60,64,29,51,87,87,72,12,16,20,21,54,43,41,83,77,41,61,72,82,15,50,36,69,49,53,92,77,16,73,12,28,37,41,79,25,80,3,37,48,23,10,55,19,51,38,96,92,99,68,75,14,18,63,35,19,68,28,49,36,53,61,64,91,2,43,68,34,46,57,82,22,67,89};
+    std::cout<<s.candy_n_space(v)<<std::endl;
     return 0;
 }
 
