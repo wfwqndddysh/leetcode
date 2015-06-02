@@ -89,4 +89,5 @@ add_executable(copy_list_with_random_pointer copy_list_with_random_pointer.cpp)
 add_executable(single_number single_number.cpp)
 add_executable(single_number_2 single_number_2.cpp)
 add_executable(candy candy.cpp)
+add_executable(gas_station gas_station.cpp)
 
