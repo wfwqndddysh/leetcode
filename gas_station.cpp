@@ -9,37 +9,32 @@ public:
     {
         int sz=gas.size();
 
-        //find first gas
-        int start = -1;
-        for(int i=0; i<sz; ++i)
+        int start = 0;
+        int left_gas = 0;
+        for(;start<sz;)
         {
-            if(gas[i]-cost[i]>=0)
+            bool moved = false;
+            int i = start;
+            while((!moved ||i!=start) && gas[i]+left_gas-cost[i]>=0)
             {
-                start = i;
-                break;
+                moved = true;
+                left_gas = left_gas+gas[i]-cost[i];
+                i=(i+1)%sz;
             }
+            if(moved && i==start) return start;
+            if(i<start) return -1;
+            start = i+1;
         }
-        if(start==-1) return -1;
-
-
-        int cur_left = gas[start]-cost[start];
-
-        for(int i=start+1; start<sz; ++i)
-        {
-            if(gas[i]-cost[i]+cur_left<0)
-            {
-                start = i+1;
-                cur_left = 0;
-            }
-        }
-        return start;
+        return -1;
     }
 };
 
 int main()
 {
     Solution s;
-    std::cout<<std::endl;
+    std::vector<int> gas{2, 4};
+    std::vector<int> cost{3, 4};
+    std::cout<<s.canCompleteCircuit(gas, cost)<<std::endl;
     return 0;
 }
 
