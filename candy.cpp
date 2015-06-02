@@ -3,7 +3,6 @@
 #include<vector>
 #include<climits>
 
-
 class Solution
 {
 public:
@@ -30,6 +29,40 @@ public:
         for(int n : candies)
             min_candies += n;
 
+        return min_candies;
+    }
+};
+
+/*
+思路是一座山，一座山的处理，需要注意的是
+判断何时到达peak，
+记录上升区间的长度
+记录下降区间的长度
+如果下降区间的长度大于上升区间的长度，则peak的candies需要增加，以满足下降区间的需要
+*/
+
+class SolutionLeetCode
+{
+public:
+    int candy(std::vector<int> &ratings){
+        int n = ratings.size();
+        int min_candies = n;
+
+        int range = 0;
+        for (size_t i = 0; i < n - 1; ) {
+            int start = i;
+            while (ratings[i] < ratings[i+1] && i < n-1) ++i;
+            range = i - start;
+            min_candies += (range * (range + 1)) / 2;
+            if (i == n-1) break;
+
+            start = i;
+            while (ratings[i] > ratings[i+1] && i < n-1) ++i;
+            int k = i - start - 1;
+            min_candies += (k * (k + 1)) / 2;
+            if (i - start > range) min_candies += (i - start - range);
+            if (ratings[i] == ratings[i+1]) ++i;
+        }
         return min_candies;
     }
 };
