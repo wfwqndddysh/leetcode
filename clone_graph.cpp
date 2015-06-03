@@ -46,6 +46,30 @@ private:
     }
 };
 
+class SolutionLeetCode
+{
+public:
+    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node)
+    {
+        if(!node) return node;
+
+        auto itr=r2l_.find(node);
+        if(itr!=r2l_.cend())
+            return itr->second;
+
+        auto l = new UndirectedGraphNode(node->label);
+        r2l_[node] = l;
+        for(auto r : node->neighbors)
+        {
+            l->neighbors.push_back(cloneGraph(r));
+        }
+
+        return l;
+    }
+private:
+    std::unordered_map<UndirectedGraphNode*, UndirectedGraphNode*> r2l_;
+};
+
 int main()
 {
     Solution s;
