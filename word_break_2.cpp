@@ -62,7 +62,10 @@ private:
         std::vector<std::string> c;
 
         if(be_a_solution(sentence, k))
+        {
             process_solution(sentence);
+            return;
+        }
 
         construct_candidates(k ,c);
 
