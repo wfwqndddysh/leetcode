@@ -2,12 +2,13 @@
 #include<cassert>
 #include<vector>
 #include<unordered_map>
+#include<map>
 
 struct UndirectedGraphNode
 {
     int label;
     std::vector<UndirectedGraphNode*> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
+    UndirectedGraphNode(int x) : label(x) {}
 };
 
 class Solution
@@ -15,28 +16,42 @@ class Solution
 public:
     UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node)
     {
+        if(!node) return nullptr;
+
+        std::unordered_map<int, std::pair<int, int>> label_loc_map;
+        std::map<std::pair<int, int>, UndirectedGraphNode*> loc_label_map;
+        return copy(node, 0, 0, label_loc_map, loc_label_map);
     }
+
 private:
-    void label2loc(UndirectedGraphNode* node
+    UndirectedGraphNode* copy(UndirectedGraphNode* r
             , int deep
             , int index
-            , std::unordered_map<int, std::pair<int, int>> label_loc_map)
+            , std::unordered_map<int, std::pair<int, int>>& label_loc_map
+            , std::map<std::pair<int, int>, UndirectedGraphNode*>& loc_label_map)
     {
-        if(label_loc_map.count(node->label)>0)
-            return;
+        auto itr=label_loc_map.find(r->label);
+        if(itr!=label_loc_map.cend())
+            return loc_label_map[itr->second];
 
-        label_loc_map.insert({node->label, {deep, index}});
-        for(size_t i=0; i<node->neighbors.size(); ++i)
+        auto l = new UndirectedGraphNode(r->label);
+        label_loc_map.insert({r->label, {deep, index}});
+        loc_label_map.insert({{deep, index}, l});
+
+        for(size_t i=0; i<r->neighbors.size(); ++i)
         {
-            label2loc(node->neighbors[i], deep+1, i, label_loc_map);
+            l->neighbors.push_back(copy(r->neighbors[i], deep+1, i, label_loc_map, loc_label_map));
         }
+        return l;
     }
 };
 
 int main()
 {
     Solution s;
-    std::cout<<std::endl;
+    UndirectedGraphNode a(0);
+    a.neighbors.resize(2, &a);
+    std::cout<<s.cloneGraph(&a)<<std::endl;
     return 0;
 }
 
