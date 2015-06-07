@@ -74,10 +74,17 @@ private:
 
             captrued.push_back({r, l});
 
-            bfs.push({r-1, l});
-            bfs.push({r+1, l});
-            bfs.push({r, l-1});
-            bfs.push({r, l+1});
+            if(!be_out_of_range(board, r-1, l) && board[r-1][l]=='O' && !traveled[r-1][l])
+                bfs.push({r-1, l});
+
+            if(!be_out_of_range(board, r+1, l) && board[r+1][l]=='O' && !traveled[r+1][l])
+                bfs.push({r+1, l});
+
+            if(!be_out_of_range(board, r, l-1) && board[r][l-1]=='O' && !traveled[r][l-1])
+                bfs.push({r, l-1});
+
+            if(!be_out_of_range(board, r, l+1) && board[r][l+1]=='O' && !traveled[r][l+1])
+                bfs.push({r, l+1});
         }
         return surrounded;
     }
