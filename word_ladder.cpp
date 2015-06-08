@@ -32,24 +32,25 @@ public:
 
             for(size_t i=0; i<cur.length(); ++i)
             {
+                char tmp = cur[i];
                 for(char c='a'; c<='z'; ++c)
                 {
                     if(c==cur[i]) continue;
+                    
+                    cur[i]=c;
 
-                    std::string next=cur;
-                    next[i]=c;
-
-                    if(next==endWord)
+                    if(cur==endWord)
                         return last_level==0 ? min_length : min_length+1;
 
-                    auto itr=wordDict.find(next);
+                    auto itr=wordDict.find(cur);
                     if(itr!=wordDict.cend())
                     {
                         wordDict.erase(itr);
-                        bfs.push(next);
+                        bfs.push(cur);
                         cur_level++;
                     }
                 }
+                cur[i] = tmp;
             }
 
             if(last_level==0)
@@ -61,6 +62,51 @@ public:
         return 0;
     }
 };
+
+//双向bfs提速很多呀
+class SolutionLeetCode
+{
+public:
+//BFS， two-end method
+//traverse the path simultaneously from start node and end node, and merge in the middle
+//the speed will increase (logN/2)^2 times compared with one-end method
+    int ladderLength(std::string start, std::string end, std::unordered_set<std::string> &dict) {
+        std::unordered_set<std::string> begSet, endSet, *set1, *set2;
+        begSet.insert(start);
+        endSet.insert(end);
+        int h=1, K=start.size();
+        while(!begSet.empty()&&!endSet.empty()){
+            if(begSet.size()<=endSet.size()){   //Make the size of two sets close for optimization
+                set1=&begSet;   //set1 is the forward set
+                set2=&endSet;   //set2 provides the target node for set1 to search
+            }
+            else{
+                set1=&endSet;
+                set2=&begSet;
+            }
+            std::unordered_set<std::string> itmSet;   //intermediate Set
+            h++;
+            for(auto i=set1->begin();i!=set1->end();i++){
+                std::string cur=*i;
+                for(int k=0;k<K;k++){   //iterate the characters in string cur
+                    char temp=cur[k];
+                    for(int l=0;l<26;l++){  //try all 26 alphabets
+                        cur[k]='a'+l;
+                        auto f=set2->find(cur);
+                        if(f!=set2->end())return h;
+                        f=dict.find(cur);
+                        if(f!=dict.end()){
+                            itmSet.insert(cur);
+                            dict.erase(f);
+                        }
+                    }
+                    cur[k]=temp;
+                }
+            }
+            swap(*set1, itmSet);
+        }
+        return 0;
+    };
 
 int main()
 {
