@@ -100,6 +100,86 @@ private:
     }
 };
 
+class SolutionLeetCode
+{
+public:
+    void solve(std::vector<std::vector<char>>& board)
+    {
+        if(board.size()<2) return;
+
+        int rows = (board.size());
+        int columns(board[0].size());
+
+        //up
+        for(int j=0; j<columns; ++j)
+            if(board[0][j]=='O')
+                bfs(board, 0, j);
+
+        //down
+        for(int j=0; j<columns; ++j)
+            if(board[rows-1][j]=='O')
+                bfs(board, rows-1, j);
+
+        //left
+        for(int i=0; i<rows; ++i)
+            if(board[i][0]=='O')
+                bfs(board, i, 0);
+
+        //right
+        for(int i=0; i<rows; ++i)
+            if(board[i][columns-1]=='O')
+                bfs(board, i, columns-1);
+
+        for(int i=0; i<rows; ++i)
+        {
+            for(int j=0; j<columns; ++j)
+            {
+                if(board[i][j]=='D')
+                    board[i][j]='O';
+                else if(board[i][j]=='O')
+                    board[i][j]='X';
+            }
+        }
+    }
+private:
+    //BFS
+    void bfs(std::vector<std::vector<char>>& board
+            , int r
+            , int c)
+    {
+        int rows = board.size();
+        int columns = board[0].size();
+
+        std::queue<std::pair<int, int>>  q;
+        q.push({r, c});
+        while(!q.empty())
+        {
+            auto cur = q.front();
+            q.pop();
+
+            r=cur.first;
+            c=cur.second;
+
+            if(board[r][c]=='D' || board[r][c]=='X')
+                continue;
+
+            board[r][c] = 'D';
+
+            if(r>0 && board[r-1][c]=='O')
+                q.push({r-1, c});
+
+            if(r<rows-1 && board[r+1][c]=='O')
+                q.push({r+1, c});
+
+            if(c>0 && board[r][c-1]=='O')
+                q.push({r, c-1});
+
+            if(c<columns-1 && board[r][c+1]=='O')
+                q.push({r, c+1});
+        }
+    }
+};
+
 int main()
 {
     Solution s;

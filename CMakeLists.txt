@@ -94,4 +94,5 @@ add_executable(clone_graph clone_graph.cpp)
 add_executable(palindrome_partitioning palindrome_partitioning.cpp)
 add_executable(palindrome_partitioning_2 palindrome_partitioning_2.cpp)
 add_executable(surrounded_regions surrounded_regions.cpp)
+add_executable(longest_consecutive_sequence longest_consecutive_sequence.cpp)
 
