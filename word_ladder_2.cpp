@@ -3,6 +3,7 @@
 #include<cassert>
 #include<string>
 #include<unordered_set>
+#include<unordered_map>
 #include<vector>
 #include<queue>
 
@@ -20,47 +21,49 @@ public:
 
         int min_length{INT_MAX};
         int cur_length{1};
-        std::queue<std::pair<std::string, std::vector<std::string>>> bfs;
-        bfs.push({beginWord, {beginWord}});
-        wordDict.erase(beginWord);
+        std::queue<std::string> bfs;
+        bfs.push(beginWord);
+        std::unordered_set<std::string> hash_table{beginWord};
+        std::unordered_map<std::string, std::vector<std::string>> pre_path;
 
         int last_level=1;
         int cur_level=0;
         while(!bfs.empty() && cur_length<=min_length)
         {
             auto cur=bfs.front();
+            auto cur_copy = cur;
             bfs.pop();
 
-            for(size_t i=0; i<cur.first.length(); ++i)
+            for(size_t i=0; i<cur.length(); ++i)
             {
-                char tmp = cur.first[i];
+                char tmp = cur[i];
                 for(char c='a'; c<='z'; ++c)
                 {
-                    if(c==cur.first[i]) continue;
+                    if(c==cur[i]) continue;
 
-                    cur.first[i]=c;
+                    cur[i]=c;
 
-                    if(cur.first==endWord)
+                    if(cur==endWord)
                     {
                         min_length = cur_length;
-                        cur.second.push_back(cur.first);
-                        vvs.push_back(cur.second);
+                        pre_path[cur].push_back(cur_copy);
                         goto next;
                     }
 
-                    auto itr=wordDict.find(cur.first);
+                    auto itr=wordDict.find(cur);
                     if(itr!=wordDict.cend())
                     {
-                        //wordDict.erase(itr);
-                        std::vector<std::string> v{cur.second};
-                        v.push_back(cur.first);
-                        bfs.push({cur.first, v});
-                        cur_level++;
+                        pre_path[cur].push_back(cur_copy);
+                        if(hash_table.count(cur)==0)
+                        {
+                            hash_table.insert(cur);
+                            bfs.push(cur);
+                            cur_level++;
+                        }
                     }
                 }
-                cur.first[i] = tmp;
+                cur[i] = tmp;
             }
-
 next:
             last_level--;
             if(last_level==0)
@@ -68,119 +71,61 @@ next:
                 last_level=cur_level;
                 cur_level = 0;
                 cur_length++;
+
+                for(const auto& s : hash_table)
+                    wordDict.erase(s);
+
+                hash_table.clear();
             }
         }
+
+        std::cout<<endWord;
+        for(const auto& i : pre_path)
+        {
+            for(const auto& s : i.second)
+                std::cout<<s<<" ";
+            std::cout<<std::endl;
+        }
+
+        construct_result(endWord, pre_path, vvs);
         return vvs;
     }
-
-    //dfs
-    std::vector<std::vector<std::string>> findLadders_dfs(std::string beginWord
-            , std::string endWord
-            , std::unordered_set<std::string> &wordDict)
-    {
-        auto dict = wordDict;
-        min_length_ = ladderLength(beginWord, endWord, dict);
-        std::vector<std::string> v{beginWord};
-        dfs(v, endWord, 1, wordDict);
-        return vvs_;
-    }
 private:
-    //dfs
-    void dfs(std::vector<std::string>& beginWord
-            , const std::string& endWord
-            , int cur_length
-            , std::unordered_set<std::string> &wordDict)
+    void construct_result(const std::string& endWord
+            , std::unordered_map<std::string, std::vector<std::string>>& pre_path
+            , std::vector<std::vector<std::string>>& vvs)
     {
-        if(cur_length>min_length_)
-            return;
+        if(pre_path.count(endWord)==0) return;
 
-        for(size_t i=0; i<beginWord.back().length(); ++i)
+        auto cur_sz=vvs.size();
+        const auto& v=pre_path[endWord];
+        for(auto itr=v.cbegin(); itr!=v.cend(); ++itr)
         {
-            auto cur = beginWord.back();
-            for(char c='a'; c<='z'; ++c)
-            {
-                if(c==beginWord.back()[i]) continue;
-                cur[i]=c;
-
-                if(cur==endWord)
-                {
-                    vvs_.push_back(beginWord);
-                    vvs_.back().push_back(cur);
-                    return;
-                }
-
-                auto itr=wordDict.find(cur);
-                if(itr!=wordDict.cend())
-                {
-                    beginWord.push_back(cur);
-                    dfs(beginWord, endWord, cur_length+1, wordDict);
-                    
-                    while((int)beginWord.size()>cur_length)
-                        beginWord.pop_back();
-                }
-            }
+            vvs.push_back(std::vector<std::string>(cur_sz));
+            std::copy(vvs.back().cbegin(), vvs.back().cbegin()+cur_sz, vvs.back().begin());
+            vvs.back().push_back(*itr);
         }
     }
-
-    int ladderLength(std::string start, std::string end, std::unordered_set<std::string> &dict) {
-        std::unordered_set<std::string> begSet, endSet, *set1, *set2;
-        begSet.insert(start);
-        endSet.insert(end);
-        int h=1, K=start.size();
-        while(!begSet.empty()&&!endSet.empty()){
-            if(begSet.size()<=endSet.size()){   //Make the size of two sets close for optimization
-                set1=&begSet;   //set1 is the forward set
-                set2=&endSet;   //set2 provides the target node for set1 to search
-            }
-            else{
-                set1=&endSet;
-                set2=&begSet;
-            }
-            std::unordered_set<std::string> itmSet;   //intermediate Set
-            h++;
-            for(auto i=set1->begin();i!=set1->end();i++){
-                std::string cur=*i;
-                for(int k=0;k<K;k++){   //iterate the characters in string cur
-                    char temp=cur[k];
-                    for(int l=0;l<26;l++){  //try all 26 alphabets
-                        cur[k]='a'+l;
-                        auto f=set2->find(cur);
-                        if(f!=set2->end())return h;
-                        f=dict.find(cur);
-                        if(f!=dict.end()){
-                            itmSet.insert(cur);
-                            dict.erase(f);
-                        }
-                    }
-                    cur[k]=temp;
-                }
-            }
-            swap(*set1, itmSet);
-        }
-        return 0;
-    }
-private:
-    std::vector<std::vector<std::string>> vvs_;
-    int min_length_;
 };
 
 int main()
 {
     Solution s;
 
-    //std::string a("hit");
-    //std::string b("cog");
-    //std::unordered_set<std::string> dict{"hot","cog","dot","dog","hit","lot","log"};
+    std::string a("hit");
+    std::string b("cog");
+    std::unordered_set<std::string> dict{"hot","cog","dot","dog","hit","lot","log"};
 
     //std::string a("red");
     //std::string b("tax");
     //std::unordered_set<std::string> dict{"ted","tex","red","tax","tad","den","rex","pee"};
 
-    std::string a("cet");
-    std::string b("ism");
-    std::unordered_set<std::string> dict{"kid","tag","pup","ail","tun","woo","erg","luz","brr","gay","sip","kay","per","val","mes","ohs","now","boa","cet","pal","bar","die","war","hay","eco","pub","lob","rue","fry","lit","rex","jan","cot","bid","ali","pay","col","gum","ger","row","won","dan","rum","fad","tut","sag","yip","sui","ark","has","zip","fez","own","ump","dis","ads","max","jaw","out","btu","ana","gap","cry","led","abe","box","ore","pig","fie","toy","fat","cal","lie","noh","sew","ono","tam","flu","mgm","ply","awe","pry","tit","tie","yet","too","tax","jim","san","pan","map","ski","ova","wed","non","wac","nut","why","bye","lye","oct","old","fin","feb","chi","sap","owl","log","tod","dot","bow","fob","for","joe","ivy","fan","age","fax","hip","jib","mel","hus","sob","ifs","tab","ara","dab","jag","jar","arm","lot","tom","sax","tex","yum","pei","wen","wry","ire","irk","far","mew","wit","doe","gas","rte","ian","pot","ask","wag","hag","amy","nag","ron","soy","gin","don","tug","fay","vic","boo","nam","ave","buy","sop","but","orb","fen","paw","his","sub","bob","yea","oft","inn","rod","yam","pew","web","hod","hun","gyp","wei","wis","rob","gad","pie","mon","dog","bib","rub","ere","dig","era","cat","fox","bee","mod","day","apr","vie","nev","jam","pam","new","aye","ani","and","ibm","yap","can","pyx","tar","kin","fog","hum","pip","cup","dye","lyx","jog","nun","par","wan","fey","bus","oak","bad","ats","set","qom","vat","eat","pus","rev","axe","ion","six","ila","lao","mom","mas","pro","few","opt","poe","art","ash","oar","cap","lop","may","shy","rid","bat","sum","rim","fee","bmw","sky","maj","hue","thy","ava","rap","den","fla","auk","cox","ibo","hey","saw","vim","sec","ltd","you","its","tat","dew","eva","tog","ram","let","see","zit","maw","nix","ate","gig","rep","owe","ind","hog","eve","sam","zoo","any","dow","cod","bed","vet","ham","sis","hex","via","fir","nod","mao","aug","mum","hoe","bah","hal","keg","hew","zed","tow","gog","ass","dem","who","bet","gos","son","ear","spy","kit","boy","due","sen","oaf","mix","hep","fur","ada","bin","nil","mia","ewe","hit","fix","sad","rib","eye","hop","haw","wax","mid","tad","ken","wad","rye","pap","bog","gut","ito","woe","our","ado","sin","mad","ray","hon","roy","dip","hen","iva","lug","asp","hui","yak","bay","poi","yep","bun","try","lad","elm","nat","wyo","gym","dug","toe","dee","wig","sly","rip","geo","cog","pas","zen","odd","nan","lay","pod","fit","hem","joy","bum","rio","yon","dec","leg","put","sue","dim","pet","yaw","nub","bit","bur","sid","sun","oil","red","doc","moe","caw","eel","dix","cub","end","gem","off","yew","hug","pop","tub","sgt","lid","pun","ton","sol","din","yup","jab","pea","bug","gag","mil","jig","hub","low","did","tin","get","gte","sox","lei","mig","fig","lon","use","ban","flo","nov","jut","bag","mir","sty","lap","two","ins","con","ant","net","tux","ode","stu","mug","cad","nap","gun","fop","tot","sow","sal","sic","ted","wot","del","imp","cob","way","ann","tan","mci","job","wet","ism","err","him","all","pad","hah","hie","aim","ike","jed","ego","mac","baa","min","com","ill","was","cab","ago","ina","big","ilk","gal","tap","duh","ola","ran","lab","top","gob","hot","ora","tia","kip","han","met","hut","she","sac","fed","goo","tee","ell","not","act","gil","rut","ala","ape","rig","cid","god","duo","lin","aid","gel","awl","lag","elf","liz","ref","aha","fib","oho","tho","her","nor","ace","adz","fun","ned","coo","win","tao","coy","van","man","pit","guy","foe","hid","mai","sup","jay","hob","mow","jot","are","pol","arc","lax","aft","alb","len","air","pug","pox","vow","got","meg","zoe","amp","ale","bud","gee","pin","dun","pat","ten","mob"};
+    //std::string a("cet");
+    //std::string b("ism");
+    //std::unordered_set<std::string> dict{"kid","tag","pup","ail","tun","woo","erg","luz","brr","gay","sip","kay","per","val","mes","ohs","now","boa","cet","pal","bar","die","war","hay","eco","pub","lob","rue","fry","lit","rex","jan","cot","bid","ali","pay","col","gum","ger","row","won","dan","rum","fad","tut","sag","yip","sui","ark","has","zip","fez","own","ump","dis","ads","max","jaw","out","btu","ana","gap","cry","led","abe","box","ore","pig","fie","toy","fat","cal","lie","noh","sew","ono","tam","flu","mgm","ply","awe","pry","tit","tie","yet","too","tax","jim","san","pan","map","ski","ova","wed","non","wac","nut","why","bye","lye","oct","old","fin","feb","chi","sap","owl","log","tod","dot","bow","fob","for","joe","ivy","fan","age","fax","hip","jib","mel","hus","sob","ifs","tab","ara","dab","jag","jar","arm","lot","tom","sax","tex","yum","pei","wen","wry","ire","irk","far","mew","wit","doe","gas","rte","ian","pot","ask","wag","hag","amy","nag","ron","soy","gin","don","tug","fay","vic","boo","nam","ave","buy","sop","but","orb","fen","paw","his","sub","bob","yea","oft","inn","rod","yam","pew","web","hod","hun","gyp","wei","wis","rob","gad","pie","mon","dog","bib","rub","ere","dig","era","cat","fox","bee","mod","day","apr","vie","nev","jam","pam","new","aye","ani","and","ibm","yap","can","pyx","tar","kin","fog","hum","pip","cup","dye","lyx","jog","nun","par","wan","fey","bus","oak","bad","ats","set","qom","vat","eat","pus","rev","axe","ion","six","ila","lao","mom","mas","pro","few","opt","poe","art","ash","oar","cap","lop","may","shy","rid","bat","sum","rim","fee","bmw","sky","maj","hue","thy","ava","rap","den","fla","auk","cox","ibo","hey","saw","vim","sec","ltd","you","its","tat","dew","eva","tog","ram","let","see","zit","maw","nix","ate","gig","rep","owe","ind","hog","eve","sam","zoo","any","dow","cod","bed","vet","ham","sis","hex","via","fir","nod","mao","aug","mum","hoe","bah","hal","keg","hew","zed","tow","gog","ass","dem","who","bet","gos","son","ear","spy","kit","boy","due","sen","oaf","mix","hep","fur","ada","bin","nil","mia","ewe","hit","fix","sad","rib","eye","hop","haw","wax","mid","tad","ken","wad","rye","pap","bog","gut","ito","woe","our","ado","sin","mad","ray","hon","roy","dip","hen","iva","lug","asp","hui","yak","bay","poi","yep","bun","try","lad","elm","nat","wyo","gym","dug","toe","dee","wig","sly","rip","geo","cog","pas","zen","odd","nan","lay","pod","fit","hem","joy","bum","rio","yon","dec","leg","put","sue","dim","pet","yaw","nub","bit","bur","sid","sun","oil","red","doc","moe","caw","eel","dix","cub","end","gem","off","yew","hug","pop","tub","sgt","lid","pun","ton","sol","din","yup","jab","pea","bug","gag","mil","jig","hub","low","did","tin","get","gte","sox","lei","mig","fig","lon","use","ban","flo","nov","jut","bag","mir","sty","lap","two","ins","con","ant","net","tux","ode","stu","mug","cad","nap","gun","fop","tot","sow","sal","sic","ted","wot","del","imp","cob","way","ann","tan","mci","job","wet","ism","err","him","all","pad","hah","hie","aim","ike","jed","ego","mac","baa","min","com","ill","was","cab","ago","ina","big","ilk","gal","tap","duh","ola","ran","lab","top","gob","hot","ora","tia","kip","han","met","hut","she","sac","fed","goo","tee","ell","not","act","gil","rut","ala","ape","rig","cid","god","duo","lin","aid","gel","awl","lag","elf","liz","ref","aha","fib","oho","tho","her","nor","ace","adz","fun","ned","coo","win","tao","coy","van","man","pit","guy","foe","hid","mai","sup","jay","hob","mow","jot","are","pol","arc","lax","aft","alb","len","air","pug","pox","vow","got","meg","zoe","amp","ale","bud","gee","pin","dun","pat","ten","mob"};
 
     auto vvs = s.findLadders(a, b, dict);
+    std::cout<<"---------------------------------------------------"<<std::endl;
     for(const auto& v : vvs)
     {
         for(const auto& s : v)
