@@ -36,7 +36,7 @@ public:
                 for(char c='a'; c<='z'; ++c)
                 {
                     if(c==cur[i]) continue;
-                    
+
                     cur[i]=c;
 
                     if(cur==endWord)
@@ -106,7 +106,8 @@ public:
             swap(*set1, itmSet);
         }
         return 0;
-    };
+    }
+};
 
 int main()
 {
