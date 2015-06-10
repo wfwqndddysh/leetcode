@@ -9,6 +9,7 @@
 class Solution
 {
 public:
+    //bfs
     std::vector<std::vector<std::string>> findLadders(std::string beginWord
             , std::string endWord
             , std::unordered_set<std::string> &wordDict)
@@ -71,6 +72,96 @@ next:
         }
         return vvs;
     }
+
+    //dfs
+    std::vector<std::vector<std::string>> findLadders_dfs(std::string beginWord
+            , std::string endWord
+            , std::unordered_set<std::string> &wordDict)
+    {
+        auto dict = wordDict;
+        min_length_ = ladderLength(beginWord, endWord, dict);
+        std::vector<std::string> v{beginWord};
+        dfs(v, endWord, 1, wordDict);
+        return vvs_;
+    }
+private:
+    //dfs
+    void dfs(std::vector<std::string>& beginWord
+            , const std::string& endWord
+            , int cur_length
+            , std::unordered_set<std::string> &wordDict)
+    {
+        if(cur_length>min_length_)
+            return;
+
+        for(size_t i=0; i<beginWord.back().length(); ++i)
+        {
+            auto cur = beginWord.back();
+            for(char c='a'; c<='z'; ++c)
+            {
+                if(c==beginWord.back()[i]) continue;
+                cur[i]=c;
+
+                if(cur==endWord)
+                {
+                    vvs_.push_back(beginWord);
+                    vvs_.back().push_back(cur);
+                    return;
+                }
+
+                auto itr=wordDict.find(cur);
+                if(itr!=wordDict.cend())
+                {
+                    beginWord.push_back(cur);
+                    dfs(beginWord, endWord, cur_length+1, wordDict);
+                    
+                    while((int)beginWord.size()>cur_length)
+                        beginWord.pop_back();
+                }
+            }
+        }
+    }
+
+    int ladderLength(std::string start, std::string end, std::unordered_set<std::string> &dict) {
+        std::unordered_set<std::string> begSet, endSet, *set1, *set2;
+        begSet.insert(start);
+        endSet.insert(end);
+        int h=1, K=start.size();
+        while(!begSet.empty()&&!endSet.empty()){
+            if(begSet.size()<=endSet.size()){   //Make the size of two sets close for optimization
+                set1=&begSet;   //set1 is the forward set
+                set2=&endSet;   //set2 provides the target node for set1 to search
+            }
+            else{
+                set1=&endSet;
+                set2=&begSet;
+            }
+            std::unordered_set<std::string> itmSet;   //intermediate Set
+            h++;
+            for(auto i=set1->begin();i!=set1->end();i++){
+                std::string cur=*i;
+                for(int k=0;k<K;k++){   //iterate the characters in string cur
+                    char temp=cur[k];
+                    for(int l=0;l<26;l++){  //try all 26 alphabets
+                        cur[k]='a'+l;
+                        auto f=set2->find(cur);
+                        if(f!=set2->end())return h;
+                        f=dict.find(cur);
+                        if(f!=dict.end()){
+                            itmSet.insert(cur);
+                            dict.erase(f);
+                        }
+                    }
+                    cur[k]=temp;
+                }
+            }
+            swap(*set1, itmSet);
+        }
+        return 0;
+    }
+private:
+    std::vector<std::vector<std::string>> vvs_;
+    int min_length_;
 };
 
 int main()
