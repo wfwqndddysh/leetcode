@@ -6,6 +6,7 @@
 #include<unordered_map>
 #include<vector>
 #include<queue>
+#include<algorithm>
 
 class Solution
 {
@@ -39,7 +40,7 @@ public:
                 char tmp = cur[i];
                 for(char c='a'; c<='z'; ++c)
                 {
-                    if(c==cur[i]) continue;
+                    if(c==cur_copy[i]) continue;
 
                     cur[i]=c;
 
@@ -79,15 +80,15 @@ next:
             }
         }
 
-        std::cout<<endWord;
-        for(const auto& i : pre_path)
-        {
-            for(const auto& s : i.second)
-                std::cout<<s<<" ";
-            std::cout<<std::endl;
-        }
+        if(pre_path.size()==0) return vvs;
 
         construct_result(endWord, pre_path, vvs);
+
+        for(auto& v : vvs)
+        {
+            std::reverse(v.begin(), v.end());
+        }
+
         return vvs;
     }
 private:
@@ -95,15 +96,23 @@ private:
             , std::unordered_map<std::string, std::vector<std::string>>& pre_path
             , std::vector<std::vector<std::string>>& vvs)
     {
-        if(pre_path.count(endWord)==0) return;
-
-        auto cur_sz=vvs.size();
-        const auto& v=pre_path[endWord];
-        for(auto itr=v.cbegin(); itr!=v.cend(); ++itr)
+        if(pre_path.count(endWord)==0)
         {
-            vvs.push_back(std::vector<std::string>(cur_sz));
-            std::copy(vvs.back().cbegin(), vvs.back().cbegin()+cur_sz, vvs.back().begin());
-            vvs.back().push_back(*itr);
+            vvs.back().push_back(endWord);
+            return;
+        }
+
+        vvs.size()==0 ? vvs.push_back({endWord}) : vvs.back().push_back(endWord);
+        auto v_sz=vvs.back().size();
+        auto vv_sz=vvs.size();
+        const auto& v=pre_path[endWord];
+        for(auto itr=v.cbegin(); itr!=v.cend();)
+        {
+            construct_result(*itr, pre_path, vvs);
+            if(++itr==v.cend())
+                break;
+            vvs.push_back(std::vector<std::string>(v_sz));
+            std::copy(vvs[vv_sz-1].cbegin(), vvs[vv_sz-1].cbegin()+v_sz, vvs.back().begin());
         }
     }
 };
@@ -112,9 +121,13 @@ int main()
 {
     Solution s;
 
-    std::string a("hit");
-    std::string b("cog");
-    std::unordered_set<std::string> dict{"hot","cog","dot","dog","hit","lot","log"};
+    std::string a("hot");
+    std::string b("dog");
+    std::unordered_set<std::string> dict{"hot","dog"};
+
+    //std::string a("hit");
+    //std::string b("cog");
+    //std::unordered_set<std::string> dict{"hot","cog","dot","dog","hit","lot","log"};
 
     //std::string a("red");
     //std::string b("tax");
@@ -134,7 +147,6 @@ int main()
         }
         std::cout<<std::endl;
     }
-    std::cout<<std::endl;
     return 0;
 }
 
