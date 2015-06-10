@@ -98,4 +98,5 @@ add_executable(longest_consecutive_sequence longest_consecutive_sequence.cpp)
 add_executable(sum_root_to_leaf_numbers sum_root_to_leaf_numbers.cpp)
 add_executable(word_ladder word_ladder.cpp)
 add_executable(word_ladder_2 word_ladder_2.cpp)
+add_executable(valid_palindrome valid_palindrome.cpp)
 
