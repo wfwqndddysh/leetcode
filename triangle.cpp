@@ -33,12 +33,30 @@ public:
         }
 
         int min_sum = INT_MAX;
-        
+
         for(int n : cur_min)
             min_sum = std::min(min_sum, n);
 
         return min_sum;
     }
+};
+
+class SolutionLeetCode
+{
+    public:
+        int minimumTotal(std::vector<std::vector<int> > &triangle)
+        {
+            std::vector<int> mini = triangle[triangle.size()-1];
+            for ( int i = triangle.size() - 2; i>= 0 ; --i )
+            {
+                for ( size_t j = 0; j < triangle[i].size() ; ++j )
+                {
+                    mini[j] = triangle[i][j] + std::min(mini[j],mini[j+1]);
+                }
+            }
+
+            return mini[0];
+        }
 };
 
 int main()
