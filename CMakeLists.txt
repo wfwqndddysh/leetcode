@@ -101,4 +101,6 @@ add_executable(word_ladder_2 word_ladder_2.cpp)
 add_executable(valid_palindrome valid_palindrome.cpp)
 add_executable(binary_tree_maximum_path_sum binary_tree_maximum_path_sum.cpp)
 add_executable(triangle triangle.cpp)
+add_executable(pascal_triangle pascal_triangle.cpp)
+add_executable(pascal_triangle_2 pascal_triangle_2.cpp)
 
