@@ -104,4 +104,5 @@ add_executable(triangle triangle.cpp)
 add_executable(pascal_triangle pascal_triangle.cpp)
 add_executable(pascal_triangle_2 pascal_triangle_2.cpp)
 add_executable(populating_next_right_pointers_in_each_node populating_next_right_pointers_in_each_node.cpp)
+add_executable(populating_next_right_pointers_in_each_node_2 populating_next_right_pointers_in_each_node_2.cpp)
 
