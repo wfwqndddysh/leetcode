@@ -103,4 +103,5 @@ add_executable(binary_tree_maximum_path_sum binary_tree_maximum_path_sum.cpp)
 add_executable(triangle triangle.cpp)
 add_executable(pascal_triangle pascal_triangle.cpp)
 add_executable(pascal_triangle_2 pascal_triangle_2.cpp)
+add_executable(populating_next_right_pointers_in_each_node populating_next_right_pointers_in_each_node.cpp)
 
