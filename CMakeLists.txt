@@ -109,4 +109,5 @@ add_executable(distinct_subsequences distinct_subsequences.cpp)
 add_executable(flatten_binary_tree_to_linked_list flatten_binary_tree_to_linked_list.cpp)
 add_executable(path_sum path_sum.cpp)
 add_executable(path_sum_2 path_sum_2.cpp)
+add_executable(minimum_depth_of_binary_tree minimum_depth_of_binary_tree.cpp)
 
