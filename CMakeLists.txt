@@ -110,4 +110,5 @@ add_executable(flatten_binary_tree_to_linked_list flatten_binary_tree_to_linked_
 add_executable(path_sum path_sum.cpp)
 add_executable(path_sum_2 path_sum_2.cpp)
 add_executable(minimum_depth_of_binary_tree minimum_depth_of_binary_tree.cpp)
+add_executable(balanced_binary_tree balanced_binary_tree.cpp)
 
