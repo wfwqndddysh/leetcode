@@ -108,4 +108,5 @@ add_executable(populating_next_right_pointers_in_each_node_2 populating_next_rig
 add_executable(distinct_subsequences distinct_subsequences.cpp)
 add_executable(flatten_binary_tree_to_linked_list flatten_binary_tree_to_linked_list.cpp)
 add_executable(path_sum path_sum.cpp)
+add_executable(path_sum_2 path_sum_2.cpp)
 
