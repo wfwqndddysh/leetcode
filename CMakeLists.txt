@@ -112,4 +112,5 @@ add_executable(path_sum_2 path_sum_2.cpp)
 add_executable(minimum_depth_of_binary_tree minimum_depth_of_binary_tree.cpp)
 add_executable(balanced_binary_tree balanced_binary_tree.cpp)
 add_executable(convert_sorted_list_to_binary_search_tree convert_sorted_list_to_binary_search_tree.cpp)
+add_executable(sorted_array_to_binary_search_tree sorted_array_to_binary_search_tree.cpp)
 
