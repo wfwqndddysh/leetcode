@@ -17,7 +17,6 @@ struct TreeNode
         print(root->left);
         print(root->right);
     }
-
 };
 
 class Solution
