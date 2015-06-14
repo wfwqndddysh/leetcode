@@ -58,6 +58,31 @@ public:
     }
 };
 
+class SolutionRec
+{
+public:
+    std::vector<std::vector<int>> levelOrderBottom(TreeNode* root)
+    {
+        std::vector<std::vector<int>> res;
+        rec(root, 0, res);
+        std::reverse(res.begin(), res.end());
+        return res;
+    }
+private:
+    void rec(TreeNode* root, size_t level, std::vector<std::vector<int>>& res)
+    {
+        if(!root) return;
+
+        if(level==res.size())
+            res.push_back({});
+
+        res[level].push_back(root->val);
+
+        rec(root->left, level+1, res);
+        rec(root->right, level+1, res);
+    }
+};
+
 int main()
 {
     Solution s;
