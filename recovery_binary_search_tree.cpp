@@ -2,8 +2,12 @@
 #include<cassert>
 #include<vector>
 
+//参考连接
+//http://www.cnblogs.com/AnnieKim/archive/2013/06/15/morristraversal.html
+//geeksforgeeks
+
 /*
-1. Initialize current as root 
+1. Initialize current as root
 2. While current is not NULL
    If current does not have left child
       a) Print current’s data
@@ -41,7 +45,7 @@ public:
         bool found = false;
         current = root;
         while(current != NULL)
-        {                
+        {
             if(current->left == NULL)
             {
                 if(parent && parent->val > current->val)
@@ -54,8 +58,8 @@ public:
                     f2 = current;
                 }
                 parent = current;
-                current = current->right;     
-            }   
+                current = current->right;
+            }
             else
             {
                 /* Find the inorder predecessor of current */
@@ -71,7 +75,7 @@ public:
                 }
 
                 /* Revert the changes made in if part to restore the original
-                   tree i.e., fix the right child of predecssor */  
+                   tree i.e., fix the right child of predecssor */
                 else
                 {
                     pre->right = NULL;
@@ -79,13 +83,13 @@ public:
                     {
                         if(!found)
                         {
-                            f1 = parent;       
+                            f1 = parent;
                             found = true;
                         }
                         f2 = current;
                     }
                     parent = current;
-                    current = current->right;     
+                    current = current->right;
                 } /* End of if condition pre->right == NULL */
             } /* End of if condition current->left == NULL*/
         } /* End of while */
@@ -109,8 +113,8 @@ private:
             if(current->left == NULL)
             {
                 result.push_back(current->val);
-                current = current->right;     
-            }   
+                current = current->right;
+            }
             else
             {
                 /* Find the inorder predecessor of current */
@@ -126,12 +130,12 @@ private:
                 }
 
                 /* Revert the changes made in if part to restore the original
-                   tree i.e., fix the right child of predecssor */  
+                   tree i.e., fix the right child of predecssor */
                 else
                 {
                     pre->right = NULL;
                     result.push_back(current->val);
-                    current = current->right;     
+                    current = current->right;
                 } /* End of if condition pre->right == NULL */
             } /* End of if condition current->left == NULL*/
         } /* End of while */
