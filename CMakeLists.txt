@@ -124,4 +124,5 @@ add_executable(symmetric_tree symmetric_tree.cpp)
 add_executable(same_tree same_tree.cpp)
 add_executable(validate_binary_search_tree validate_binary_search_tree.cpp)
 add_executable(interleaving_string interleaving_string.cpp)
+add_executable(unique_binary_search_trees unique_binary_search_trees.cpp)
 
