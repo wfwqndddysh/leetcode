@@ -1,6 +1,9 @@
 #include<iostream>
 #include<cassert>
+#include<vector>
+#include<string>
 
+//贪心+回塑----其实就是暴力法啦，超时
 class Solution
 {
 public:
@@ -8,23 +11,11 @@ public:
             , const std::string& s2
             , const std::string& s3)
     {
-        return rec(true, s1, 0, s2, 0, s3, 0) || rec(false, s1, 0, s2, 0, s3, 0);
+        return rec(s1, 0, s2, 0, s3, 0) || rec(s2, 0, s1, 0, s3, 0);
     }
 
 private:
-    bool rec(bool eat_s1
-            , const std::string& s1, int i1
-            , const std::string& s2, int i2
-            , const std::string& s3, int i3)
-    {
-        if(eat_s1)
-            return eat(!eat_s1, s1, i1, s2, i2, s3, i3);
-        else
-            return eat(!eat_s1, s2, i2, s1, i1, s3, i3);
-    }
-
-    bool eat(bool eatwho
-            , const std::string& cur, int ci
+    bool rec(const std::string& cur, int ci
             , const std::string& next, int ni
             , const std::string& dest, int di)
     {
@@ -35,7 +26,6 @@ private:
 
         if(di==l_dest && ci==l_cur && ni==l_next) return true;
 
-
         for(; dest[di]==cur[ci] && ci<l_cur&& di<l_dest; )
         {
             max_eat++;
@@ -45,7 +35,7 @@ private:
 
         for(int i=max_eat; i>0; --i)
         {
-            if(rec(eatwho, cur, ci, next, ni, dest, di))
+            if(rec(next, ni, cur, ci, dest, di))
                 return true;
             ci--;
             di--;
@@ -55,14 +45,68 @@ private:
     }
 };
 
+class SolutionDP
+{
+public:
+    bool isInterleave(const std::string& s1
+            , const std::string& s2
+            , const std::string& s3)
+    {
+        int l1 = s1.size();
+        int l2 = s2.size();
+        int l3 = s3.size();
+
+        if(l1+l2!=l3) return false;
+        if(l1==0) return s2==s3;
+        if(l2==0) return s1==s3;
+
+        std::vector<std::vector<bool>> dp(l1+1, std::vector<bool>(l2+1, false));
+
+        for(int i=1; i<=l1; ++i)
+        {
+            if(s1[i-1]!=s3[i-1])
+                break;
+            dp[i][0]=true;
+        }
+
+        for(int j=1; j<=l2; ++j)
+        {
+            if(s2[j-1]!=s3[j-1])
+                break;
+            dp[0][j]=true;
+        }
+
+        for(int i=1; i<=l1; ++i)
+        {
+            for(int j=1; j<=l2; ++j)
+            {
+                dp[i][j] = (dp[i-1][j] && s1[i-1]==s3[i+j-1]) || (dp[i][j-1] && s2[j-1]==s3[i+j-1]);
+            }
+        }
+        return dp[l1][l2];
+    }
+};
+
 int main()
 {
-    Solution s;
+    SolutionDP s;
 
-    std::string s1("ab");
-    std::string s2("ba");
-    std::string s3("babc");
-    
+    //std::string s1("ab");
+    //std::string s2("bc");
+    //std::string s3("babc");
+
+    std::string s1("bbbbbabbbbabaababaaaabbababbaaabbabbaaabaaaaababbbababbbbbabbbbababbabaabababbbaabababababbbaaababaa");
+    std::string s2("babaaaabbababbbabbbbaabaabbaabbbbaabaaabaababaaaabaaabbaaabaaaabaabaabbbbbbbbbbbabaaabbababbabbabaab");
+    std::string s3("babbbabbbaaabbababbbbababaabbabaabaaabbbbabbbaaabbbaaaaabbbbaabbaaabababbaaaaaabababbababaababbababbbababbbbaaaabaabbabbaaaaabbabbaaaabbbaabaaabaababaababbaaabbbbbabbbbaabbabaabbbbabaaabbababbabbabbab");
+
+    //std::string s1 = "aabaac";
+    //std::string s2 = "aadaaeaaf";
+    //std::string s3 = "aadaaeaabaafaac";
+
+    //std::string s1 = "a";
+    //std::string s2 = "b";
+    //std::string s3 = "ab";
+
     std::cout<<s.isInterleave(s1, s2, s3)<<std::endl;
     return 0;
 }
