@@ -121,4 +121,6 @@ add_executable(binary_tree_zigzag_level_order_traversal binary_tree_zigzag_level
 add_executable(recovery_binary_search_tree recovery_binary_search_tree.cpp)
 add_executable(binary_tree_level_order_traversal binary_tree_level_order_traversal.cpp)
 add_executable(symmetric_tree symmetric_tree.cpp)
+add_executable(same_tree same_tree.cpp)
+add_executable(validate_binary_search_tree validate_binary_search_tree.cpp)
 
