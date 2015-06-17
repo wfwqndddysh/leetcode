@@ -127,4 +127,5 @@ add_executable(interleaving_string interleaving_string.cpp)
 add_executable(unique_binary_search_trees unique_binary_search_trees.cpp)
 add_executable(unique_binary_search_trees_2 unique_binary_search_trees_2.cpp)
 add_executable(binary_tree_inorder_traversal binary_tree_inorder_traversal.cpp)
+add_executable(scramble_string scramble_string.cpp)
 
