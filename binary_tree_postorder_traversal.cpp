@@ -21,75 +21,19 @@ public:
 
         std::stack<TreeNode*> s;
         s.push(root);
+        auto head = root;
 
         while(!s.empty())
         {
-            while(root->left)
+            auto cur = s.top();
+            bool be_leaf = !cur->left && !cur->right;
+            bool be_subtrees_finished = cur->left == head || cur->right == head;
+
+            if(be_leaf || be_subtrees_finished)
             {
-                root = root->left;
-                s.push(root);
-            }
-
-            do
-            {
-                if(root->right)
-                {
-                    root = root->right;
-                    s.push(root);
-                    break;
-                }
-                else
-                {
-                    output.push_back(root->val);
-                    s.pop();
-
-                    TreeNode* child = nullptr;
-                    for(child = root; !s.empty(); child=root)
-                    {
-                        root = s.top();
-
-                        if(root->left==child)
-                            break;
-
-                        if(root->right==child)
-                            output.push_back(root->val);
-
-                        s.pop();
-                    }
-                }
-            } while(!s.empty());
-        }
-        return output;
-    }
-
-    std::vector<int> postorderTraversal_(TreeNode* root)
-    {
-        std::vector<int> output;
-        if(!root) return output;
-
-        std::stack<TreeNode*> s;
-        s.push(root);
-
-        while(!s.empty())
-        {
-            if(!root->left && !root->right)
-            {
-                output.push_back(root->val);
-
-                //需要判断是否为已经访问过了
-                auto child = root;
+                output.push_back(cur->val);
                 s.pop();
-                for(; !s.empty(); child = root)
-                {
-                    root = s.top();
-
-                    if(child!=root->right && child!=root->left)
-                        break;
-
-                    output.push_back(root->val);
-                    s.pop();
-                }
-                continue;
+                head = cur;
             }
 
             if(root->right)
@@ -100,7 +44,6 @@ public:
             {
                 s.push(root->left);
             }
-            root = root->left ? root->left : root->right;
         }
         return output;
     }
@@ -197,7 +140,7 @@ int main()
 
     c.left = &a;
     c.right = &b;
-    auto v = s.postorderTraversal_(&c);
+    auto v = s.postorderTraversal(&c);
     for(int n : v)
         std::cout<<n<<std::endl;
     return 0;
