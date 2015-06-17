@@ -5,30 +5,28 @@ struct ListNode
 {
     int val;
     ListNode* next;
-
-    ListNode(int value)
-        : val(value)
-          , next(nullptr)
-    {
-    }
+    ListNode(int value) : val(value) , next(nullptr) {}
 };
 
 class Solution
 {
 public:
-    ListNode* reverseList(ListNode* head, int m, int n)
+    ListNode* reverseBetween(ListNode* head, int m, int n)
     {
         ListNode* current = head;
-        ListNode* prev = head;
+        ListNode* head_last =  nullptr;
 
         int start=1;
         while(current && start<m)
         {
-            prev = current;
+            head_last = current;
             current = current->next;
+            start++;
         }
 
-        while(current && m<n)
+        ListNode* prev = nullptr;
+        ListNode* mid_last = current;
+        while(current && m<=n)
         {
             auto tmp = current;
             current = current->next;
@@ -36,20 +34,31 @@ public:
             prev = tmp;
             m++;
         }
-        return prev;
+
+        if(mid_last) mid_last->next = current;
+        if(head_last) head_last->next= prev;
+        return head_last ? head : prev;
     }
 };
 
 int main()
 {
-    ListNode na(2);
-    ListNode nb(1);
+    ListNode na(1);
+    ListNode nb(2);
+    ListNode nc(3);
+    na.next=&nb;
+    nb.next=&nc;
 
-    na.next = &nb;
-    
+    /*
+    ListNode na(3);
+    ListNode nb(5);
+    na.next=&nb;
+    */
+
+    //ListNode na(5);
+
     Solution s;
-
-    ListNode* ret = s.reverseList(&na);
+    ListNode* ret = s.reverseBetween(&na, 1, 2);
 
     std::cout<<ret->val<<std::endl;
 }
