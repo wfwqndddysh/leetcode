@@ -130,4 +130,5 @@ add_executable(binary_tree_inorder_traversal binary_tree_inorder_traversal.cpp)
 add_executable(scramble_string scramble_string.cpp)
 add_executable(restore_ip_addresses restore_ip_addresses.cpp)
 add_executable(reverse_linked_list_2 reverse_linked_list_2.cpp)
+add_executable(decode_ways decode_ways.cpp)
 
