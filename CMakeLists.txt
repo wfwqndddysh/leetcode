@@ -132,4 +132,5 @@ add_executable(restore_ip_addresses restore_ip_addresses.cpp)
 add_executable(reverse_linked_list_2 reverse_linked_list_2.cpp)
 add_executable(decode_ways decode_ways.cpp)
 add_executable(merge_sorted_array merge_sorted_array.cpp)
+add_executable(gray_code gray_code.cpp)
 
