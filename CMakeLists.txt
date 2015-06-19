@@ -135,4 +135,5 @@ add_executable(merge_sorted_array merge_sorted_array.cpp)
 add_executable(gray_code gray_code.cpp)
 add_executable(subsets subsets.cpp)
 add_executable(subsets_2 subsets_2.cpp)
+add_executable(partition_list partition_list.cpp)
 
