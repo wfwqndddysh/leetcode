@@ -136,4 +136,5 @@ add_executable(gray_code gray_code.cpp)
 add_executable(subsets subsets.cpp)
 add_executable(subsets_2 subsets_2.cpp)
 add_executable(partition_list partition_list.cpp)
+add_executable(maximal_rectangle maximal_rectangle.cpp)
 
