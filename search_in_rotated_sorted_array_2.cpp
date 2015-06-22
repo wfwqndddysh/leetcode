@@ -5,7 +5,7 @@
 class Solution
 {
 public:
-    int search(std::vector<int>& nums, int target)
+    bool search(std::vector<int>& nums, int target)
     {
         auto sz=nums.size();
         if(sz==0) return -1;
@@ -17,13 +17,22 @@ public:
         {
             int mid = low+(high-low)/2;
 
-            if(nums[mid]==target)
-                return mid;
+            if(nums[mid]==target || nums[high]==target)
+                return true;
 
-            if(nums[high]==target)
-                return high;
-
-            if(nums[mid]>nums[low])
+            if(nums[mid]==nums[low] && nums[mid]==nums[high])
+            {
+                high = high-1;
+            }
+            else if(nums[mid]==nums[low])
+            {
+                low = mid+1;
+            }
+            else if(nums[mid]==nums[high])
+            {
+                high = mid-1;
+            }
+            else if(nums[mid]>nums[low])
             {
                 if(target>=nums[low] && target<nums[mid])
                     high = mid-1;
@@ -39,7 +48,7 @@ public:
             }
         }
 
-        return -1;
+        return false;
     }
 };
 
@@ -48,8 +57,9 @@ int main()
     Solution s;
     //std::vector<int> nums{1, 3};
     //std::vector<int> nums{3, 1};
-    std::vector<int> nums{5, 1, 2, 3, 4};
-    std::cout<<s.search(nums, 1)<<std::endl;
+    //std::vector<int> nums{1, 1, 3, 1};
+    std::vector<int> nums{2, 2, 2, 0, 0, 1};
+    std::cout<<s.search(nums, 3)<<std::endl;
     return 0;
 }
 
