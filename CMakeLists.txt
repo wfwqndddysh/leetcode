@@ -138,4 +138,5 @@ add_executable(subsets_2 subsets_2.cpp)
 add_executable(partition_list partition_list.cpp)
 add_executable(maximal_rectangle maximal_rectangle.cpp)
 add_executable(largest_rectangle_in_histogram largest_rectangle_in_histogram.cpp)
+add_executable(remove_duplicates_from_sorted_list remove_duplicates_from_sorted_list.cpp)
 
