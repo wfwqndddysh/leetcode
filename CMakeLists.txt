@@ -145,4 +145,5 @@ add_executable(remove_duplicates_from_sorted_array_2 remove_duplicates_from_sort
 add_executable(search_in_rotated_sorted_array search_in_rotated_sorted_array.cpp)
 add_executable(search_in_rotated_sorted_array_2 search_in_rotated_sorted_array_2.cpp)
 add_executable(word_search word_search.cpp)
+add_executable(combinations combinations.cpp)
 
