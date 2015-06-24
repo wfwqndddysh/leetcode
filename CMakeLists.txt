@@ -150,4 +150,6 @@ add_executable(minimum_window_substring minimum_window_substring.cpp)
 add_executable(minimum_path_sum minimum_path_sum.cpp)
 add_executable(unique_paths unique_paths.cpp)
 add_executable(unique_paths_2 unique_paths_2.cpp)
+add_executable(sort_colors sort_colors.cpp)
+add_executable(search_a_2D_Matrix search_a_2D_Matrix.cpp)
 
