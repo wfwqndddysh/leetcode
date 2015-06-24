@@ -152,4 +152,5 @@ add_executable(unique_paths unique_paths.cpp)
 add_executable(unique_paths_2 unique_paths_2.cpp)
 add_executable(sort_colors sort_colors.cpp)
 add_executable(search_a_2D_Matrix search_a_2D_Matrix.cpp)
+add_executable(set_matrix_zeroes set_matrix_zeroes.cpp)
 
