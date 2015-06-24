@@ -148,4 +148,6 @@ add_executable(word_search word_search.cpp)
 add_executable(combinations combinations.cpp)
 add_executable(minimum_window_substring minimum_window_substring.cpp)
 add_executable(minimum_path_sum minimum_path_sum.cpp)
+add_executable(unique_paths unique_paths.cpp)
+add_executable(unique_paths_2 unique_paths_2.cpp)
 
