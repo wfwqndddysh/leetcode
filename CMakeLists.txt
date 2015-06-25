@@ -160,4 +160,6 @@ add_executable(add_binary add_binary.cpp)
 add_executable(plus_one plus_one.cpp)
 add_executable(rotate_list rotate_list.cpp)
 add_executable(permutation_sequence permutation_sequence.cpp)
+add_executable(permutations permutations.cpp)
+add_executable(next_permutation next_permutation.cpp)
 
