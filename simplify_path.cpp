@@ -1,6 +1,7 @@
 #include<iostream>
 #include<cassert>
 #include<string>
+#include<vector>
 
 class Solution
 {
@@ -91,12 +92,51 @@ private:
     }
 };
 
+
+class SolutionLeetCode
+{
+public:
+    std::string simplifyPath(std::string path) {
+        std::vector<std::string> stack;
+        assert(path[0]=='/');
+
+        size_t i=0;
+        while(i< path.size())
+        {
+            while(path[i] =='/' && i< path.size()) i++; //skip the begining '////'
+            if(i == path.size()) break;
+
+            int start = i;
+            while(path[i]!='/' && i< path.size()) i++; //decide the end boundary
+            int end = i-1;
+            std::string element = path.substr(start, end-start+1);
+
+            if(element == "..")
+            {
+                if(stack.size() >0) stack.pop_back();
+            }
+            else if(element!=".")
+            {
+                stack.push_back(element);
+            }
+        }
+
+        if(stack.size() ==0) return "/";
+
+        std::string simpPath;
+        for(size_t i =0; i<stack.size(); i++) simpPath += "/" + stack[i];
+
+        return simpPath;
+    }
+};
+
 int main()
 {
     Solution s;
     //std::string path("/");
     //std::string path("/a/./b/../../c/");
-    std::string path("jaxjp/./");
+    //std::string path("jaxjp/./");
+    std::string path("/");
     std::cout<<s.simplifyPath(path)<<std::endl;
     return 0;
 }
