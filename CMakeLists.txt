@@ -159,4 +159,5 @@ add_executable(sqrt sqrt.cpp)
 add_executable(add_binary add_binary.cpp)
 add_executable(plus_one plus_one.cpp)
 add_executable(rotate_list rotate_list.cpp)
+add_executable(permutation_sequence permutation_sequence.cpp)
 
