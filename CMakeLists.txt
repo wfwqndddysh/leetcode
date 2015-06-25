@@ -158,4 +158,5 @@ add_executable(climbing_stairs climbing_stairs.cpp)
 add_executable(sqrt sqrt.cpp)
 add_executable(add_binary add_binary.cpp)
 add_executable(plus_one plus_one.cpp)
+add_executable(rotate_list rotate_list.cpp)
 
