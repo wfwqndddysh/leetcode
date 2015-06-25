@@ -155,4 +155,5 @@ add_executable(search_a_2D_Matrix search_a_2D_Matrix.cpp)
 add_executable(set_matrix_zeroes set_matrix_zeroes.cpp)
 add_executable(simplify_path simplify_path.cpp)
 add_executable(climbing_stairs climbing_stairs.cpp)
+add_executable(sqrt sqrt.cpp)
 
