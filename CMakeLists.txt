@@ -156,4 +156,5 @@ add_executable(set_matrix_zeroes set_matrix_zeroes.cpp)
 add_executable(simplify_path simplify_path.cpp)
 add_executable(climbing_stairs climbing_stairs.cpp)
 add_executable(sqrt sqrt.cpp)
+add_executable(add_binary add_binary.cpp)
 
