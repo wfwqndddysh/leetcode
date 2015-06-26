@@ -163,4 +163,6 @@ add_executable(permutation_sequence permutation_sequence.cpp)
 add_executable(permutations permutations.cpp)
 add_executable(next_permutation next_permutation.cpp)
 add_executable(permutations_2 permutations_2.cpp)
+add_executable(spiral_matrix spiral_matrix.cpp)
+add_executable(spiral_matrix_2 spiral_matrix_2.cpp)
 
