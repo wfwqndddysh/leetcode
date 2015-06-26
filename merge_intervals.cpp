@@ -11,7 +11,7 @@ struct Interval
     Interval(int s, int e) : start(s), end(e) {}
 };
 
-class Solution
+class SolutionSort
 {
 public:
     std::vector<Interval> merge(std::vector<Interval>& intervals)
@@ -25,30 +25,18 @@ public:
 
         std::sort(intervals.begin(), intervals.end(), comp);
 
-        int start;
-        int end;
-
-        auto newInterval = intervals[0];
+        res.push_back(intervals[0]);
         for(size_t i=1; i<sz; ++i)
         {
-            if(newInterval.end<intervals[i].start)
-            {
-                res.push_back(newInterval);
-                newInterval = intervals[i];
-            }
-            else if(newInterval.start>intervals[i].end)
+            if(res.back().end<intervals[i].start)
             {
                 res.push_back(intervals[i]);
             }
             else
             {
-                start = std::min(newInterval.start, intervals[i].start);
-                end = std::max(newInterval.end, intervals[i].end);
-                newInterval = Interval(start, end);
+                res.back().end = std::max(res.back().end, intervals[i].end);
             }
         }
-
-        res.push_back(newInterval);
 
         return res;
     }
@@ -56,9 +44,9 @@ public:
 
 int main()
 {
-    Solution s;
+    SolutionSort s;
 
-    std::vector<Interval> intervals{{2,3},{4,5},{6,7},{8,9},{1,10}};
+    std::vector<Interval> intervals{{1,4},{1,5}};
     auto v = s.merge(intervals);
 
     for(const auto& interval : v)
