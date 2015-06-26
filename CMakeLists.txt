@@ -165,4 +165,5 @@ add_executable(next_permutation next_permutation.cpp)
 add_executable(permutations_2 permutations_2.cpp)
 add_executable(spiral_matrix spiral_matrix.cpp)
 add_executable(spiral_matrix_2 spiral_matrix_2.cpp)
+add_executable(length_of_last_word length_of_last_word.cpp)
 
