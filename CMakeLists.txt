@@ -167,4 +167,5 @@ add_executable(spiral_matrix spiral_matrix.cpp)
 add_executable(spiral_matrix_2 spiral_matrix_2.cpp)
 add_executable(length_of_last_word length_of_last_word.cpp)
 add_executable(insert_interval insert_interval.cpp)
+add_executable(merge_intervals merge_intervals.cpp)
 
