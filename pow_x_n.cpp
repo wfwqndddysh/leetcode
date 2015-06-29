@@ -53,7 +53,7 @@ public:
 
         return left * right;
     }
-}
+};
 
 int main()
 {
