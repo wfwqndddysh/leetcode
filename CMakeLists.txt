@@ -171,4 +171,5 @@ add_executable(merge_intervals merge_intervals.cpp)
 add_executable(maximum_subarray maximum_subarray.cpp)
 add_executable(jump_game jump_game.cpp)
 add_executable(jump_game_2 jump_game_2.cpp)
+add_executable(pow_x_n pow_x_n.cpp)
 
