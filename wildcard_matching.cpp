@@ -3,7 +3,7 @@
 #include<string>
 #include<vector>
 
-class Solution
+class SolutionDP
 {
 public:
     bool isMatch(std::string s, std::string p)
@@ -96,7 +96,9 @@ public:
             return all;
         }
 
-        return backtrack(s, p, 0, 0);
+        bool  ret=backtrack(s, p, 0, 0);
+        std::cout<<cnt_<<std::endl;
+        return ret;
     }
     bool backtrack(const std::string& s
             , const std::string& p
@@ -124,9 +126,10 @@ public:
             if(p[cur_p]=='*')
             {
                 while(cur_p+1<p.size() && p[cur_p+1]=='*') cur_p++;
-                for(size_t i=0; i<s.size(); ++i)
+                for(size_t i=cur_s; i<s.size(); ++i)
                 {
-                    if(backtrack(s, p, cur_s+i, cur_p+1)) return true;
+                    if(i!=cur_s) cnt_++;
+                    if(backtrack(s, p, i, cur_p+1)) return true;
                 }
             }
             else if(p[cur_p]=='?')
@@ -141,25 +144,56 @@ public:
 
         return false;
     }
+
+private:
+    int cnt_;
 };
 
 class SolutionLeetCode
 {
 public:
-    bool isMatch(const char *s, const char *p)
+    bool isMatch(const std::string str, const std::string parttern)
     {
+        cnt_ = 0;
+        const char* s=str.c_str();
+        const char* p=parttern.c_str();
         const char* star=NULL;
         const char* ss=s;
         while (*s)
         {
-            if ((*p=='?')||(*p==*s)){s++;p++;continue;}
-            if (*p=='*'){star=p++; ss=s;continue;}
-            if (star){ p = star+1; s=++ss;continue;}
+            if ((*p=='?')||(*p==*s))
+            {
+                s++;
+                p++;
+                continue;
+            }
+
+            if (*p=='*')
+            {
+                star=p++;
+                ss=s;
+                continue;
+            }
+
+            if(star)
+            {
+                cnt_++;
+                p = star+1;
+                s=++ss;
+                continue;
+            }
+
             return false;
         }
         while (*p=='*'){p++;}
+
+        std::cout<<cnt_<<std::endl;
+        
         return !*p;
     }
+    
+private:
+    int cnt_;
 };
 
 int main()
@@ -223,7 +257,7 @@ int main()
     std::string parttern("b*b*ba**a*aaa*a*b**bbaa");
 
     SolutionLeetCode s;
-    std::cout<<s.isMatch(str.c_str(), parttern.c_str())<<std::endl;
+    std::cout<<s.isMatch(str, parttern)<<std::endl;
     return 0;
 }
 

@@ -175,4 +175,6 @@ add_executable(pow_x_n pow_x_n.cpp)
 add_executable(anagrams anagrams.cpp)
 add_executable(rotate_image rotate_image.cpp)
 add_executable(wildcard_matching wildcard_matching.cpp)
+add_executable(n_queens n_queens.cpp)
+add_executable(n_queens_2 n_queens_2.cpp)
 
