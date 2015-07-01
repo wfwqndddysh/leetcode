@@ -178,4 +178,5 @@ add_executable(wildcard_matching wildcard_matching.cpp)
 add_executable(n_queens n_queens.cpp)
 add_executable(n_queens_2 n_queens_2.cpp)
 add_executable(multiply_strings multiply_strings.cpp)
+add_executable(trapping_rain_water trapping_rain_water.cpp)
 
