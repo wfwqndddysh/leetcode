@@ -41,7 +41,7 @@ private:
         else
         {
             int sz=0;
-            int cnt=target/candidates[cur];
+            int cnt=(target-sum)/candidates[cur];
             for(int i=0; i<=cnt; ++i)
             {
                 if(i>0) combination.push_back(candidates[cur]);
