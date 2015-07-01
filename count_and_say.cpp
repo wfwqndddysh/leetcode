@@ -6,7 +6,7 @@ class Solution
 public:
     std::string countAndSay(int n)
     {
-        if(n<=1) return "";
+        if(n<1) return "";
 
         std::string solution{"1"};
         if(n==1) return solution;
@@ -26,13 +26,14 @@ public:
                     tmp.push_back(cnt+'0');
                     tmp.push_back(c);
                     c=solution[j];
+                    cnt=1;
                 }
             }
 
             tmp.push_back(cnt+'0');
             tmp.push_back(c);
 
-            solution=tmp;
+            solution=std::move(tmp);
         }
 
         return solution;
@@ -42,7 +43,7 @@ public:
 int main()
 {
     Solution s;
-    std::cout<<s.countAndSay(5)<<std::endl;
+    std::cout<<s.countAndSay(50)<<std::endl;
     return 0;
 }
 
