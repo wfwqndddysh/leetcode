@@ -183,4 +183,5 @@ add_executable(first_missing_positive first_missing_positive.cpp)
 add_executable(combination_sum combination_sum.cpp)
 add_executable(combination_sum_2 combination_sum_2.cpp)
 add_executable(count_and_say count_and_say.cpp)
+add_executable(valid_sudoku valid_sudoku.cpp)
 
