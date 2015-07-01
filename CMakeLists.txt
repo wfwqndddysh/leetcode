@@ -181,4 +181,5 @@ add_executable(multiply_strings multiply_strings.cpp)
 add_executable(trapping_rain_water trapping_rain_water.cpp)
 add_executable(first_missing_positive first_missing_positive.cpp)
 add_executable(combination_sum combination_sum.cpp)
+add_executable(combination_sum_2 combination_sum_2.cpp)
 
