@@ -185,4 +185,5 @@ add_executable(combination_sum_2 combination_sum_2.cpp)
 add_executable(count_and_say count_and_say.cpp)
 add_executable(valid_sudoku valid_sudoku.cpp)
 add_executable(sudoku_solver sudoku_solver.cpp)
+add_executable(search_insert_position search_insert_position.cpp)
 
