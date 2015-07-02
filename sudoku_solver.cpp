@@ -99,8 +99,8 @@ private:
         {
             for(int j=c; j<c+3; ++j)
             {
-                if(board[i][c]!='.')
-                    flags[board[i][c]-'1']=true;
+                if(board[i][j]!='.')
+                    flags[board[i][j]-'1']=true;
             }
         }
 
