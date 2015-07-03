@@ -61,15 +61,74 @@ public:
     }
 };
 
+class Solution_
+{
+public:
+    int longestValidParentheses(std::string s)
+    {
+        int sz=s.size();
+        if(sz==0) return 0;
+
+        int longest=0;
+        int continuous_len=0;
+        std::stack<std::pair<int, int>> ranges;
+        std::stack<std::pair<char, int>> st;
+        std::pair<int, int> cur_range;
+        for(int i=0; i<sz; ++i)
+        {
+            if(s[i]==')')
+            {
+                if(!st.empty())//找到一个new range
+                {
+                    cur_range = {st.top().second, i};
+                    continuous_len = cur_range.second-cur_range.first+1;
+                    longest=std::max(longest, continuous_len);
+
+                    for(;!ranges.empty();)
+                    {
+                        if(cur_range.first<ranges.top().first)
+                        {
+                            longest = std::max(longest , continuous_len);
+                            ranges.pop();
+                        }
+                        else if(ranges.top().second+1==cur_range.first)
+                        {
+                            continuous_len += ranges.top().second-ranges.top().first+1;
+                            cur_range = ranges.top();
+                            longest = std::max(longest , continuous_len);
+                            ranges.pop();
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    ranges.push(cur_range);
+                    st.pop();
+                }
+            }
+            else
+            {
+                st.push({s[i], i});
+            }
+        }
+
+        return longest;
+    }
+};
+
 int main()
 {
-    Solution s;
+    Solution_ s;
     //std::string parentheses("()(()");
     //std::string parentheses("()");
-    std::string parentheses("()()");
+    //std::string parentheses("()()");
+    //std::string parentheses("())");
+    //std::string parentheses(")(");
     //std::string parentheses("()()");
     //std::string parentheses("(()");
     //std::string parentheses(")()())()()(");
+    std::string parentheses("()(())");
     std::cout<<s.longestValidParentheses(parentheses)<<std::endl;
     return 0;
 }
