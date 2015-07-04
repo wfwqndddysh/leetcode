@@ -94,9 +94,8 @@ public:
                         else if(ranges.top().second+1==cur_range.first)
                         {
                             continuous_len += ranges.top().second-ranges.top().first+1;
-                            cur_range = ranges.top();
+                            cur_range = {ranges.top().first, cur_range.second};
                             longest = std::max(longest , continuous_len);
-                            ranges.pop();
                         }
                         else
                         {
@@ -128,7 +127,8 @@ int main()
     //std::string parentheses("()()");
     //std::string parentheses("(()");
     //std::string parentheses(")()())()()(");
-    std::string parentheses("()(())");
+    //std::string parentheses("()(())");
+    std::string parentheses("(()()(())((");
     std::cout<<s.longestValidParentheses(parentheses)<<std::endl;
     return 0;
 }

@@ -188,4 +188,5 @@ add_executable(sudoku_solver sudoku_solver.cpp)
 add_executable(search_insert_position search_insert_position.cpp)
 add_executable(search_for_a_range search_for_a_range.cpp)
 add_executable(longest_valid_parentheses longest_valid_parentheses.cpp)
+add_executable(substring_with_concatenation_of_all_words substring_with_concatenation_of_all_words.cpp)
 
