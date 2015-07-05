@@ -192,4 +192,5 @@ add_executable(substring_with_concatenation_of_all_words substring_with_concaten
 add_executable(divide_two_integers divide_two_integers.cpp)
 add_executable(strstr strstr.cpp)
 add_executable(remove_element remove_element.cpp)
+add_executable(reverse_nodes_in_k_group reverse_nodes_in_k_group.cpp)
 
