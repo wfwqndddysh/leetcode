@@ -190,4 +190,5 @@ add_executable(search_for_a_range search_for_a_range.cpp)
 add_executable(longest_valid_parentheses longest_valid_parentheses.cpp)
 add_executable(substring_with_concatenation_of_all_words substring_with_concatenation_of_all_words.cpp)
 add_executable(divide_two_integers divide_two_integers.cpp)
+add_executable(strstr strstr.cpp)
 
