@@ -195,4 +195,5 @@ add_executable(remove_element remove_element.cpp)
 add_executable(reverse_nodes_in_k_group reverse_nodes_in_k_group.cpp)
 add_executable(swap_nodes_in_pairs swap_nodes_in_pairs.cpp)
 add_executable(merge_k_sorted_lists merge_k_sorted_lists.cpp)
+add_executable(generate_parentheses generate_parentheses.cpp)
 
