@@ -53,6 +53,30 @@ public:
     }
 };
 
+class SolutionLeetCode
+{
+public:
+    bool isValid(std::string s)
+    {
+        std::stack<char> opens;
+        for(size_t i=0; i<s.size(); ++i)
+        {
+            if(s[i]=='(' || s[i]=='[' || s[i]=='{')
+                opens.push(s[i]);
+            else if(s[i]==')' && !opens.empty() && opens.top()=='(')
+                opens.pop();
+            else if(s[i]==']' && !opens.empty() && opens.top()=='[')
+                opens.pop();
+            else if(s[i]=='}' && !opens.empty() && opens.top()=='{')
+                opens.pop();
+            else 
+                return false;
+        }
+
+        return opens.empty();
+    }
+};
+
 int main()
 {
     Solution s;
