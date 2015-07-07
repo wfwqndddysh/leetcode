@@ -64,6 +64,34 @@ private:
     }
 };
 
+class SolutionLeetCode
+{
+public:
+    std::vector<int> twoSum(std::vector<int> &numbers, int target)
+    {
+        //Key is the number and value is its index in the vector.
+        std::unordered_map<int, int> hash;
+        std::vector<int> result;
+        for (int i = 0; i < (int)numbers.size(); i++)
+        {
+            int numberToFind = target - numbers[i];
+
+            //if numberToFind is found in map, return them
+            if (hash.find(numberToFind) != hash.end())
+            {
+                //+1 because indices are NOT zero based
+                result.push_back(hash[numberToFind] + 1);
+                result.push_back(i + 1);
+                return result;
+            }
+
+            //number was not found. Put it in the map.
+            hash[numbers[i]] = i;
+        }
+        return result;
+    }
+};
+
 int main()
 {
     Solution s;
