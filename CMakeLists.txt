@@ -199,4 +199,5 @@ add_executable(generate_parentheses generate_parentheses.cpp)
 add_executable(merge_two_sorted_lists merge_two_sorted_lists.cpp)
 add_executable(valid_parentheses valid_parentheses.cpp)
 add_executable(remove_nth_node_from_end_of_list remove_nth_node_from_end_of_list.cpp)
+add_executable(two_sum two_sum.cpp)
 
