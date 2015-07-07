@@ -12,9 +12,9 @@ public:
         int sz=nums.size();
         std::sort(nums.begin(), nums.end());
         std::vector<std::vector<int>>  res;
-        for(int i=0; i<sz; )
+        for(int i=0; i<sz-2; )
         {
-            for(int j=i+1; j<(int)nums.size()-1; )
+            for(int j=i+1; j<sz-1; )
             {
                 int third=find_third(nums, j+1, 0-nums[j]-nums[i]);
                 if(third>=0)
@@ -24,7 +24,7 @@ public:
                     res.back().push_back(nums[j]);
                     res.back().push_back(nums[third]);
                 }
-                for(j++; nums[j]==nums[j-1] && i<sz-1; ++j);
+                for(j++; nums[j]==nums[j-1] && j<sz-1; ++j);
             }
 
             for(i++; nums[i]==nums[i-1] && i<sz-2; ++i);
