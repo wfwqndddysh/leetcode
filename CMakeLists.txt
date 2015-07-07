@@ -202,4 +202,5 @@ add_executable(remove_nth_node_from_end_of_list remove_nth_node_from_end_of_list
 add_executable(two_sum two_sum.cpp)
 add_executable(3_sum 3_sum.cpp)
 add_executable(4_sum 4_sum.cpp)
+add_executable(3_sum_closest 3_sum_closest.cpp)
 
