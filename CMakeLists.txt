@@ -203,4 +203,5 @@ add_executable(two_sum two_sum.cpp)
 add_executable(3_sum 3_sum.cpp)
 add_executable(4_sum 4_sum.cpp)
 add_executable(3_sum_closest 3_sum_closest.cpp)
+add_executable(letter_combinations_of_a_phone_number letter_combinations_of_a_phone_number.cpp)
 
