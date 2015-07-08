@@ -205,4 +205,5 @@ add_executable(4_sum 4_sum.cpp)
 add_executable(3_sum_closest 3_sum_closest.cpp)
 add_executable(letter_combinations_of_a_phone_number letter_combinations_of_a_phone_number.cpp)
 add_executable(longest_common_prefix longest_common_prefix.cpp)
+add_executable(roman_to_integer roman_to_integer.cpp)
 
