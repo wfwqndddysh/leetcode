@@ -22,73 +22,29 @@ public:
         int right=0;
         for(int i=len-1; i>=0; --i)
         {
-            if(s[i]=='I')
-            {
-                if(right==5 || right==10)
-                {
-                    res += right-1;
-                    right = 0;
-                }
-                else
-                    right += 1;
-            }
-            else if(s[i]=='X')
-            {
-                if(right==50 || right==100)
-                {
-                    res += right-10;
-                    right=0;
-                }
-                else if(right>0 && right<10)
-                {
-                    res += 10 + right;
-                    right=0;
-                }
-                else
-                {
-                    right += 10;
-                }
-            }
-            else if(s[i]=='C')
+            if(s[i]=='I' || s[i]=='X' || s[i]=='C' || s[i]=='M')
             {
                 if(i-1>=0 && dict[s[i-1]]<dict[s[i]])
                 {
                     res += right;
                     right = dict[s[i]];
                 }
-                else if(right==500 || right==1000)
+                else if(right==dict[s[i]]*5 || right==dict[s[i]]*10)
                 {
-                    res += right-100;
+                    res += right-dict[s[i]];
                     right=0;
                 }
-                else if(right>0 && right<100)
+                else if(right>0 && right<dict[s[i]])
                 {
-                    res += 100 + right;
-                    right=0;
-                }
-                else
-                {
-                    right += 100;
-                }
-            }
-            else if(s[i]=='M')
-            {
-                if(i-1>=0 && dict[s[i-1]]<dict[s[i]])
-                {
-                    res += right;
-                    right = dict[s[i]];
-                }
-                else if(right>0 && right<1000)
-                {
-                    res += 1000 + right;
+                    res += dict[s[i]] + right;
                     right=0;
                 }
                 else
                 {
-                    right += 1000;
+                    right += dict[s[i]];
                 }
             }
-            else if(s[i]=='V')
+            else if(s[i]=='V' || s[i]=='L' || s[i]=='D')
             {
                 if(i-1>=0 && dict[s[i-1]]<dict[s[i]])
                 {
@@ -97,54 +53,85 @@ public:
                 }
                 else if(right>0)
                 {
-                    res += 5+right;
+                    res += dict[s[i]]+right;
                     right=0;
                 }
                 else
                 {
-                    res += right;
-                    right += 5;
-                }
-            }
-            else if(s[i]=='L')
-            {
-                if(i-1>=0 && dict[s[i-1]]<dict[s[i]])
-                {
-                    res += right;
                     right = dict[s[i]];
-                }
-                else if(right>0)
-                {
-                    res += 50+right;
-                    right=0;
-                }
-                else
-                {
-                    res += right;
-                    right = 50;
-                }
-            }
-            else if(s[i]=='D')
-            {
-                if(i-1>=0 && dict[s[i-1]]<dict[s[i]])
-                {
-                    res += right;
-                    right = dict[s[i]];
-                }
-                else if(right>0)
-                {
-                    res += 500+right;
-                    right=0;
-                }
-                else
-                {
-                    res += right;
-                    right = 500;
                 }
             }
         }
 
         return res+right;;
+    }
+};
+
+class SolutionLeetCode
+{
+public:
+    int romanToInt(std::string s)
+    {
+        int sum=0;
+        if(s.find("IV")!=std::string::npos){sum-=2;}
+        if(s.find("IX")!=std::string::npos){sum-=2;}
+        if(s.find("XL")!=std::string::npos){sum-=20;}
+        if(s.find("XC")!=std::string::npos){sum-=20;}
+        if(s.find("CD")!=std::string::npos){sum-=200;}
+        if(s.find("CM")!=std::string::npos){sum-=200;}
+
+        for(size_t i=0; i<s.length(); ++i)
+        {
+            if(s[i]=='M') sum+=1000;
+            if(s[i]=='D') sum+=500;
+            if(s[i]=='C') sum+=100;
+            if(s[i]=='L') sum+=50;
+            if(s[i]=='X') sum+=10;
+            if(s[i]=='V') sum+=5;
+            if(s[i]=='I') sum+=1;
+        }
+
+        return sum;
+    }
+};
+
+class SolutionLeetCode2
+{
+public:
+    int romanToInt(std::string s) {
+        int num = 0;
+        int size = s.size();
+
+        for (int i = 0; i < size; i++)
+        {
+            if (i < (size - 1) && (
+                        ('I' == s[i] && ('V' == s[i + 1] || 'X' == s[i + 1])) ||
+                        ('X' == s[i] && ('L' == s[i + 1] || 'C' == s[i + 1])) ||
+                        ('C' == s[i] && ('D' == s[i + 1] || 'M' == s[i + 1])) ))
+            {
+                num -= romanCharToInt(s[i]);
+            }
+            else
+            {
+                num += romanCharToInt(s[i]);
+            }
+        }
+        return num;
+    }
+
+    int romanCharToInt(char c)
+    {
+        switch (c)
+        {
+            case 'I':   return 1;
+            case 'V':   return 5;
+            case 'X':   return 10;
+            case 'L':   return 50;
+            case 'C':   return 100;
+            case 'D':   return 500;
+            case 'M':   return 1000;
+            default:    return 0;
+        }
     }
 };
 
