@@ -1,11 +1,14 @@
 #include<iostream>
 #include<cassert>
+#include<climits>
 
 class Solution
 {
 public:
     bool isPalindrome(int x)
     {
+        if(x<0) return false;
+
         x=std::abs(x);
         int cnt=0;
         int num=x;
@@ -17,21 +20,23 @@ public:
         }
 
         num=x;
-        while(num>10)
+        //while(num>=10)
+
+        for(; num>=10 || cnt>=2; cnt-=2)
         {
-            int high_single=num/(cnt*10);
-            int low_single=num%10;
-
-            if(high_single!=low_single)
-                return false;
-
-            int high=high_single;
+            int high=1;
             for(int i=0; i<cnt-1; ++i)
             {
                 high = high*10;
             }
 
-            num = num-high;
+            int high_single=num/high;
+            int low_single=num%10;
+
+            if(high_single!=low_single)
+                return false;
+
+            num = num-high*high_single;
             num /= 10;
         }
 
@@ -39,10 +44,27 @@ public:
     }
 };
 
+class SolutionLeetCode
+{
+public:
+    bool isPalindrome(int x)
+    {
+        if(x<0 || (x!=0 && x%10==0)) return false;
+        int sum=0;
+        while(x>sum)
+        {
+            sum = sum*10+x%10;
+            x = x/10;
+        }
+        return (x==sum)||(x==sum/10);
+    }
+};
+
 int main()
 {
     Solution s;
-    std::cout<<std::endl;
+    //std::cout<<s.isPalindrome(-10)<<std::endl;
+    std::cout<<s.isPalindrome(1000021)<<std::endl;
     return 0;
 }
 
