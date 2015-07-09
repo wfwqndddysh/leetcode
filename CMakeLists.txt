@@ -210,4 +210,5 @@ add_executable(integer_to_roman integer_to_roman.cpp)
 add_executable(container_with_most_water container_with_most_water.cpp)
 add_executable(regular_expression_matching regular_expression_matching.cpp)
 add_executable(palindrome_number palindrome_number.cpp)
+add_executable(zig_zag_conversion zig_zag_conversion.cpp)
 
