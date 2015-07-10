@@ -59,7 +59,8 @@ public:
 int main()
 {
     Solution s;
-    std::cout<<s.longestPalindrome("aaaa")<<std::endl;
+    //std::cout<<s.longestPalindrome("aaaa")<<std::endl;
+    std::cout<<s.longestPalindrome("bb")<<std::endl;
     return 0;
 }
 
