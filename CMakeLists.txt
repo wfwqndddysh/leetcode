@@ -215,4 +215,5 @@ add_executable(string_to_integer_atoi string_to_integer_atoi.cpp)
 add_executable(longest_palindromic_substring longest_palindromic_substring.cpp)
 add_executable(median_of_two_sorted_arrays median_of_two_sorted_arrays.cpp)
 add_executable(add_two_numbers add_two_numbers.cpp)
+add_executable(longest_substring_without_repeating_characters longest_substring_without_repeating_characters.cpp)
 
