@@ -224,4 +224,5 @@ add_executable(implement_queue_using_stacks implement_queue_using_stacks.cpp)
 add_executable(pow_of_two pow_of_two.cpp)
 add_executable(kth_smallest_element_in_a_bst kth_smallest_element_in_a_bst.cpp)
 add_executable(basic_calculator basic_calculator.cpp)
+add_executable(basic_calculator_2 basic_calculator_2.cpp)
 
