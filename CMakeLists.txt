@@ -221,6 +221,7 @@ add_executable(palindrome_linked_list palindrome_linked_list.cpp)
 add_executable(number_of_digit_one number_of_digit_one.cpp)
 add_executable(lowest_common_ancestor_of_a_binary_tree lowest_common_ancestor_of_a_binary_tree.cpp)
 add_executable(implement_queue_using_stacks implement_queue_using_stacks.cpp)
-add_executable(power_of_two power_of_two.cpp)
+add_executable(pow_of_two pow_of_two.cpp)
 add_executable(kth_smallest_element_in_a_bst kth_smallest_element_in_a_bst.cpp)
+add_executable(basic_calculator basic_calculator.cpp)
 
