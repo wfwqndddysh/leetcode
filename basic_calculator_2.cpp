@@ -2,6 +2,7 @@
 #include<cassert>
 #include<string>
 #include<stack>
+#include<vector>
 
 class Solution
 {
@@ -61,12 +62,70 @@ private:
     }
 };
 
+class SolutionLeetCode
+{
+public:
+    int calculate(const std::string& s)
+    {
+        int len=s.length();
+
+        std::vector<int> st;
+        int num = 0;
+        int sign='+';
+
+        for(int i=0;i<len;i++)
+        {
+            if(s[i]>='0' && s[i]<='9')
+            {
+                num = num*10+s[i]-'0';
+            }
+            if(s[i]=='*' || s[i]=='/' || s[i]=='+' || s[i]=='-' || i==len-1)
+            {
+                if(sign=='-')
+                {
+                    st.push_back(-num);
+                }
+                else if(sign=='+')
+                {
+                    st.push_back(num);
+                }
+                else if(sign=='*')
+                {
+                    int n=st.back();
+                    st.pop_back();
+                    st.push_back(n*num);
+                }
+                else if(sign=='/')
+                {
+                    int n=st.back();
+                    st.pop_back();
+                    st.push_back(n/num);
+                }
+
+                sign=s[i];
+                num=0;
+            }
+        }
+
+        int res=0;
+        for(int i: st)
+        {
+            res += i;
+        }
+
+        return res;
+    }
+};
+
 int main()
 {
-    Solution s;
+    SolutionLeetCode s;
     //std::cout<<s.calculate("2*3+4")<<std::endl;
     //std::cout<<s.calculate("1+1+1")<<std::endl;
-    std::cout<<s.calculate("1+1-1")<<std::endl;
+    //std::cout<<s.calculate("1+1-1")<<std::endl;
+    //std::cout<<s.calculate("3+5 / 2")<<std::endl;
+    //std::cout<<s.calculate("0*1")<<std::endl;
+    std::cout<<s.calculate("1")<<std::endl;
     return 0;
 }
 
