@@ -227,4 +227,5 @@ add_executable(basic_calculator basic_calculator.cpp)
 add_executable(basic_calculator_2 basic_calculator_2.cpp)
 add_executable(summary_ranges summary_ranges.cpp)
 add_executable(invert_binary_tree invert_binary_tree.cpp)
+add_executable(implement_stack_using_queues implement_stack_using_queues.cpp)
 
