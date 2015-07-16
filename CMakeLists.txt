@@ -231,4 +231,7 @@ add_executable(implement_stack_using_queues implement_stack_using_queues.cpp)
 add_executable(rectangle_area rectangle_area.cpp)
 add_executable(count_complete_tree_nodes count_complete_tree_nodes.cpp)
 add_executable(maximal_square maximal_square.cpp)
+add_executable(contains_duplicate contains_duplicate.cpp)
+add_executable(contains_duplicate_2 contains_duplicate_2.cpp)
+add_executable(contains_duplicate_3 contains_duplicate_3.cpp)
 
