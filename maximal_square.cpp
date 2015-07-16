@@ -51,18 +51,61 @@ private:
     }
 };
 
+class SolutionDP
+{
+public:
+    int maximalSquare(std::vector<std::vector<char>>& matrix)
+    {
+        if (matrix.empty()) return 0;
+
+        int m = matrix.size();
+        int n = matrix[0].size();
+
+        std::vector<int> dp(m + 1, 0);
+        int maxsize = 0;
+        int pre = 0;
+
+        for (int j = 0; j < n; j++)
+        {
+            for (int i = 1; i <= m; i++)
+            {
+                int temp = dp[i];
+                if (matrix[i - 1][j] == '1')
+                {
+                    dp[i] = std::min(dp[i], std::min(dp[i - 1], pre)) + 1;
+                    maxsize = std::max(maxsize, dp[i]);
+                }
+                else
+                {
+                    dp[i] = 0; 
+                }
+                pre = temp;
+            }
+        }
+        return maxsize * maxsize;
+    }
+};
+
+
 int main()
 {
-    Solution s;
+    SolutionDP s;
 
     /*
     std::vector<std::vector<char>> matrix{ {'0', '0'},
                                            {'0', '0'} };
                                            */
 
+    /*
     std::vector<std::vector<char>> matrix{ {'1', '0'},
                                            {'1', '0'} };
+                                           */
 
+    //std::vector<std::vector<char>> matrix{ {'0'} };
+
+    std::vector<std::vector<char>> matrix{ {'1', '1'},
+                                           {'1', '1'} };
+    
     std::cout<<s.maximalSquare(matrix)<<std::endl;
     return 0;
 }
