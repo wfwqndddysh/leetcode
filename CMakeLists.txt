@@ -230,4 +230,5 @@ add_executable(invert_binary_tree invert_binary_tree.cpp)
 add_executable(implement_stack_using_queues implement_stack_using_queues.cpp)
 add_executable(rectangle_area rectangle_area.cpp)
 add_executable(count_complete_tree_nodes count_complete_tree_nodes.cpp)
+add_executable(maximal_square maximal_square.cpp)
 
