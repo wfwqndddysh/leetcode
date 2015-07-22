@@ -234,4 +234,5 @@ add_executable(maximal_square maximal_square.cpp)
 add_executable(contains_duplicate contains_duplicate.cpp)
 add_executable(contains_duplicate_2 contains_duplicate_2.cpp)
 add_executable(contains_duplicate_3 contains_duplicate_3.cpp)
+add_executable(minimum_size_subarray_sum minimum_size_subarray_sum.cpp)
 
