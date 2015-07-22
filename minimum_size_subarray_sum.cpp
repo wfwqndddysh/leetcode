@@ -1,6 +1,7 @@
 #include<iostream>
 #include<cassert>
 #include<vector>
+#include<climits>
 
 class Solution
 {
@@ -102,6 +103,27 @@ public:
         }
 
         return min_len;
+    }
+};
+
+class SolutionLeetCode
+{
+public:
+    int minSubArrayLen(int s, std::vector<int>& nums)
+    {
+        int firstPos = 0, sum = 0, minLength = INT_MAX;
+        
+        for(int i = 0; i<(int)nums.size(); i++)
+        {
+            sum += nums[i];
+            while(sum >= s)
+            {
+                minLength = std::min(minLength, i - firstPos + 1);
+                sum -= nums[firstPos++];
+            }
+        }
+
+        return minLength == INT_MAX? 0 : minLength;
     }
 };
 
