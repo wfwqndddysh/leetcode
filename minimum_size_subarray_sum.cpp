@@ -63,15 +63,58 @@ public:
     }
 };
 
+class Solution_
+{
+public:
+    int minSubArrayLen(int s, std::vector<int>& nums)
+    {
+        int min_len=0;
+        int cur_sum=0;
+
+        size_t start=0;
+        bool found=false;
+        for(size_t i=0; i<nums.size(); ++i)
+        {
+            cur_sum += nums[i];
+
+            if(min_len==0 && cur_sum<s)
+                continue;
+            else if(min_len==0 && cur_sum>=s)
+                min_len = i+1;
+
+            if(cur_sum-nums[start]>=s)
+            {
+                for(min_len=found?min_len:min_len+1; cur_sum>=s && start<i; )
+                {
+                    min_len--;
+                    cur_sum -= nums[start++];
+                }
+            }
+            else if(cur_sum>=s)
+            {
+                if(found) min_len--;
+                cur_sum = cur_sum - nums[start++];
+            }
+            cur_sum = cur_sum - nums[start++];
+
+            found=true;
+            if(min_len==1) break;
+        }
+
+        return min_len;
+    }
+};
+
 int main()
 {
-    Solution s;
+    Solution_ s;
     //std::vector<int> nums{1, 4, 4};
     //std::vector<int> nums{1, 2, 3, 4, 5};
     //std::vector<int> nums{5,1,3 ,5,10,7,4,9,2,8};
+    //std::vector<int> nums{1,1,1,1,1,3,2};
+    std::vector<int> nums{2,3,1,2,4,3};
 
-    std::vector<int> nums{1,1,1,1,1,3,2};
-    std::cout<<s.minSubArrayLen(5, nums)<<std::endl;
+    std::cout<<s.minSubArrayLen(7, nums)<<std::endl;
     return 0;
 }
 
