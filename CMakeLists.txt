@@ -235,4 +235,5 @@ add_executable(contains_duplicate contains_duplicate.cpp)
 add_executable(contains_duplicate_2 contains_duplicate_2.cpp)
 add_executable(contains_duplicate_3 contains_duplicate_3.cpp)
 add_executable(minimum_size_subarray_sum minimum_size_subarray_sum.cpp)
+add_executable(product_of_array_except_self product_of_array_except_self.cpp)
 
