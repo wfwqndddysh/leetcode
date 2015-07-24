@@ -4,6 +4,7 @@
 #include<climits>
 #include<algorithm>
 #include<map>
+#include<deque>
 
 class Solution
 {
@@ -52,6 +53,54 @@ public:
 };
 
 class Solution_
+{
+public:
+    std::vector<int> maxSlidingWindow(std::vector<int>& nums, int k)
+    {
+        int sz=nums.size();
+        if(sz==0) return {};
+
+        std::vector<int> res;
+        std::multimap<int, int> heap;
+
+        for(int i=0; i<k; ++i)
+        {
+            heap.insert({nums[i], i});
+        }
+
+        auto cur_max=--heap.end();
+        res.push_back(cur_max->first);
+
+        for(int i=k; i<sz; ++i)
+        {
+            if(cur_max->second<=i-k)
+            {
+                heap.erase(cur_max);
+                heap.insert({nums[i], i});
+                cur_max=--heap.end();
+                res.push_back(cur_max->first);
+            }
+            else
+            {
+                if(cur_max->first>nums[i])
+                {
+                    res.push_back(cur_max->first);
+                }
+                else
+                {
+                    res.push_back(nums[i]);
+                }
+                heap.erase(heap.find(nums[i-k]));
+                heap.insert({nums[i], i});
+                cur_max=--heap.end();
+            }
+        }
+
+        return res;
+    }
+};
+
+class SolutionDeque
 {
 public:
     std::vector<int> maxSlidingWindow(std::vector<int>& nums, int k)
