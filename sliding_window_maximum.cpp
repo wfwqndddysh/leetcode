@@ -3,6 +3,7 @@
 #include<vector>
 #include<climits>
 #include<algorithm>
+#include<map>
 
 class Solution
 {
@@ -59,43 +60,39 @@ public:
         if(sz==0) return {};
 
         std::vector<int> res;
-        std::vector<std::pair<int, int>> heap;
+        std::multimap<int, int> heap;
 
         for(int i=0; i<k; ++i)
         {
-            heap.push_back({nums[i], i});
+            heap.insert({nums[i], i});
         }
 
-        auto comp=[](const std::pair<int, int>& l, const std::pair<int, int>& r)
-        {
-            return l.first<r.first;
-        };
-        std::make_heap(heap.begin(), heap.end(), comp);
-
-        auto cur_max=heap[0];
-        res.push_back(cur_max.first);
+        auto cur_max=--heap.end();
+        res.push_back(cur_max->first);
 
         for(int i=k; i<sz; ++i)
         {
-            if(cur_max.second<=i-k)
+            if(cur_max->second<=i-k)
             {
-                std::pop_heap(heap.begin(), heap.end());
-                heap.back()={nums[i], i};
-                std::push_heap(heap.begin(), heap.end(), comp);
-                cur_max=heap[0];
+                heap.erase(cur_max);
+                heap.insert({nums[i], i});
+                cur_max=--heap.end();
+                res.push_back(cur_max->first);
             }
             else
             {
-                if(cur_max.first>nums[i])
+                if(cur_max->first>nums[i])
                 {
+                    res.push_back(cur_max->first);
                 }
                 else
                 {
+                    res.push_back(nums[i]);
                 }
-                cur_max=cur_max.first>nums[i] ? cur_max : std::pair<int, int>{nums[i], i};
-                heap[0]=cur_max;
+                heap.erase(heap.find(nums[i-k]));
+                heap.insert({nums[i], i});
+                cur_max=--heap.end();
             }
-            res.push_back(cur_max.first);
         }
 
         return res;
