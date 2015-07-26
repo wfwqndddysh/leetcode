@@ -240,4 +240,5 @@ add_executable(sliding_window_maximum sliding_window_maximum.cpp)
 add_executable(search_a_2D_Matrix_2 search_a_2D_Matrix_2.cpp)
 add_executable(delete_node_in_a_linked_list delete_node_in_a_linked_list.cpp)
 add_executable(combination_sum_3 combination_sum_3.cpp)
+add_executable(kth_largest_element_in_an_array kth_largest_element_in_an_array.cpp)
 
