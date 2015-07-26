@@ -238,4 +238,6 @@ add_executable(minimum_size_subarray_sum minimum_size_subarray_sum.cpp)
 add_executable(product_of_array_except_self product_of_array_except_self.cpp)
 add_executable(sliding_window_maximum sliding_window_maximum.cpp)
 add_executable(search_a_2D_Matrix_2 search_a_2D_Matrix_2.cpp)
+add_executable(delete_node_in_a_linked_list delete_node_in_a_linked_list.cpp)
+add_executable(combination_sum_3 combination_sum_3.cpp)
 
