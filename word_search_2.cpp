@@ -10,23 +10,56 @@ struct TrieNode
         memset(children_, '\0', sizeof(children_));
     }
 
+    bool is_end() const
+    {
+        return is_end_;
+    }
+
+    void set_end()
+    {
+        is_end_=true;
+    }
+
+    TrieNode* find(char letter) const
+    {
+        return children_[letter-'a'];
+    }
+
+    TrieNode* insert(char letter)
+    {
+        children_[letter-'a']=new TrieNode();
+        return children_[letter-'a'];
+    }
+
     TrieNode* children_[26];
+
+private:
     bool is_end_;
 };
 
 class Trie
 {
 public:
-    TrieNode* find(TrieNode* cur, int letter)
+    TrieNode* start(int letter)
     {
+        return root_.find(letter);
     }
 
     void insert(const std::string& word)
     {
+        auto node=&root_;
+        for(char c : word)
+        {
+            if(!node->find(c))
+            {
+                node=node->insert(c);
+            }
+        }
+        node->set_end();
     }
 
 private:
-    TrieNode* root_;
+    TrieNode root_;
 };
 
 class Solution
@@ -50,7 +83,7 @@ public:
             for(int j=0; j<c; ++j)
             {
                 std::string word;
-                backtrack(board, i, j, trie.find(nullptr, board[i][j]), word);
+                backtrack(board, trie, i, j, trie.start(board[i][j]), word);
             }
         }
 
@@ -59,16 +92,17 @@ public:
 
 private:
     void backtrack(std::vector<std::vector<char>>& board
+            , const Trie& trie
             , int i
             , int j
             , TrieNode* trie_node
-            , std::string& found)
+            , std::string& word)
     {
         if(trie_node==nullptr) return;
 
-        if(trie_node->is_end_)
+        if(trie_node->is_end())
         {
-            res_.push_back(found);
+            res_.push_back(word);
         }
 
         int l=board.size();
@@ -77,13 +111,15 @@ private:
         if(i<0 || j<0 || i==l || j==c) return;
 
         char tmp=board[i][j];
+        word.push_back(tmp);
         board[i][j] = '\0';
         
-        backtrack(board, i, j+1, word, k+1);
-        backtrack(board, i+1, j, word, k+1);
-        backtrack(board, i-1, j, word, k+1);
-        backtrack(board, i, j-1, word, k+1);
+        backtrack(board, trie, i, j+1, trie_node->find(tmp), word),
+        backtrack(board, trie, i+1, j, trie_node->find(tmp), word);
+        backtrack(board, trie, i-1, j, trie_node->find(tmp), word);
+        backtrack(board, trie, i, j-1, trie_node->find(tmp), word);
 
+        word.pop_back();
         board[i][j] = tmp;
     }
 
@@ -95,6 +131,16 @@ int main()
 {
     Solution s;
     std::vector<std::vector<char>> board{{'a', 'a'}};
+    std::vector<std::string> words{ "aaa" };
+
+    auto vs=s.findWords(board, words);
+
+    for(const auto& s : vs)
+    {
+        std::cout<<s<<std::endl;
+    }
+
+    std::cout<<std::endl;
     return 0;
 }
 
