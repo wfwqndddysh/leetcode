@@ -243,4 +243,5 @@ add_executable(combination_sum_3 combination_sum_3.cpp)
 add_executable(kth_largest_element_in_an_array kth_largest_element_in_an_array.cpp)
 add_executable(house_robber_2 house_robber_2.cpp)
 add_executable(shortest_palindrome shortest_palindrome.cpp)
+add_executable(word_search_2 word_search_2.cpp)
 

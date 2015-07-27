@@ -105,8 +105,7 @@ private:
 
 struct TrieNodeFast
 {
-    TrieNodeFast()
-        : is_end_(false)
+    TrieNodeFast() : is_end_(false)
     {
         memset(children_, '\0', sizeof(children_));
     }
@@ -118,9 +117,7 @@ struct TrieNodeFast
 class TrieFast
 {
 public:
-    TrieFast()
-        : root_(new TrieNodeFast())
-    {}
+    TrieFast() : root_(new TrieNodeFast()) {}
 
     void insert(const std::string& s)
     {
