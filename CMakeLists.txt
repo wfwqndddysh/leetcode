@@ -244,4 +244,5 @@ add_executable(kth_largest_element_in_an_array kth_largest_element_in_an_array.c
 add_executable(house_robber_2 house_robber_2.cpp)
 add_executable(shortest_palindrome shortest_palindrome.cpp)
 add_executable(word_search_2 word_search_2.cpp)
+add_executable(add_and_search_word add_and_search_word.cpp)
 
