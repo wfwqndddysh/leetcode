@@ -33,7 +33,7 @@ struct TrieNode
     TrieNode* insert(char letter)
     {
         children_[letter-'a']=new TrieNode();
-        std::cout<<children_[letter-'a']<<std::endl;
+        //std::cout<<children_[letter-'a']<<std::endl;
         return children_[letter-'a'];
     }
 
@@ -46,9 +46,9 @@ private:
 class Trie
 {
 public:
-    TrieNode* start(int letter)
+    TrieNode* start()
     {
-        return root_.find(letter);
+        return &root_;
     }
 
     void insert(const std::string& word)
@@ -56,10 +56,7 @@ public:
         auto node=&root_;
         for(char c : word)
         {
-            if(!node->find(c))
-            {
-                node=node->insert(c);
-            }
+            node=node->find(c) ? node->find(c) : node->insert(c);
         }
         node->set_end();
     }
@@ -81,8 +78,6 @@ public:
         for(const auto& s : words)
             trie.insert(s);
 
-        std::cout<<"--------------------------------------"<<std::endl;
-
         int l=board.size();
         int c=board[0].size();
 
@@ -91,7 +86,7 @@ public:
             for(int j=0; j<c; ++j)
             {
                 std::string word;
-                backtrack(board, i, j, trie.start(board[i][j]), word);
+                backtrack(board, i, j, trie.start(), word);
             }
         }
 
@@ -105,29 +100,30 @@ private:
             , TrieNode* trie_node
             , std::string& word)
     {
-        std::cout<<i<<" "<<j<<" "<<trie_node<<std::endl;
-
-        if(trie_node==nullptr) return;
-
-        if(trie_node->is_end())
-        {
-            res_.push_back(word);
-            trie_node->clear_end();
-        }
-
         int l=board.size();
         int c=board[0].size();
-
         if(i<0 || j<0 || i==l || j==c) return;
 
+        if(board[i][j]=='\0') return;
+
         char tmp=board[i][j];
+        auto node=trie_node->find(tmp);
+        if(!node) return;
+
         word.push_back(tmp);
-        board[i][j] = '\0';
+
+        if(node->is_end())
+        {
+            res_.push_back(word);
+            node->clear_end();
+        }
         
-        backtrack(board, i, j+1, tmp=='\0' ? nullptr : trie_node->find(tmp), word),
-        backtrack(board, i+1, j, tmp=='\0' ? nullptr : trie_node->find(tmp), word);
-        backtrack(board, i-1, j, tmp=='\0' ? nullptr : trie_node->find(tmp), word);
-        backtrack(board, i, j-1, tmp=='\0' ? nullptr : trie_node->find(tmp), word);
+        board[i][j] = '\0';
+
+        backtrack(board, i, j+1, node, word),
+        backtrack(board, i+1, j, node, word);
+        backtrack(board, i-1, j, node, word);
+        backtrack(board, i, j-1, node, word);
 
         word.pop_back();
         board[i][j] = tmp;
@@ -140,11 +136,21 @@ private:
 int main()
 {
     Solution s;
-    /*
-    std::vector<std::vector<char>> board{{'a', 'a'}};
-    std::vector<std::string> words{ "aaa" };
-    */
 
+    //std::vector<std::vector<char>> board{{'a', 'a'}};
+    //std::vector<std::string> words{ "aaa" };
+
+    //std::vector<std::vector<char>> board{{'a'}};
+    //std::vector<std::string> words{ "a", "a" };
+
+    //std::vector<std::vector<char>> board{{'a', 'a'}};
+    //std::vector<std::string> words{ "a" };
+
+    std::vector<std::vector<char>> board{{'a', 'b'},
+                                         {'c', 'd'}};
+    std::vector<std::string> words{ "ab","cb","ad","bd","ac","ca","da","bc","db","adcb","dabc","abb","acb" };
+
+    /*
     std::vector<std::vector<char>> board{ {'b', 'a', 'a', 'b', 'a', 'b'},
                                           {'a', 'b', 'a', 'a', 'a', 'a'},
                                           {'a', 'b', 'a', 'a', 'a', 'b'},
@@ -183,9 +189,12 @@ int main()
                                     {"abbababbbaababaabbababababbb"},
                                     {"aabbbabbaaaababbbbabbababbbb"},
                                     {"babbbaabababbbbbbbbbaabbabaa"} };
+                                    */
+
+    //std::vector<std::vector<char>> board{ {'a'} };
+    //std::vector<std::string> words{ "a" };
 
     auto vs=s.findWords(board, words);
-
     for(const auto& word : vs)
     {
         std::cout<<word<<std::endl;
