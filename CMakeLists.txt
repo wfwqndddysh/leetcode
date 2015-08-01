@@ -248,4 +248,5 @@ add_executable(add_and_search_word add_and_search_word.cpp)
 add_executable(different_ways_to_add_parentheses different_ways_to_add_parentheses.cpp)
 add_executable(course_schedule course_schedule.cpp)
 add_executable(course_schedule_2 course_schedule_2.cpp)
+add_executable(valid_anagram valid_anagram.cpp)
 
