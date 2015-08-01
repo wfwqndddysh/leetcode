@@ -246,4 +246,5 @@ add_executable(shortest_palindrome shortest_palindrome.cpp)
 add_executable(word_search_2 word_search_2.cpp)
 add_executable(add_and_search_word add_and_search_word.cpp)
 add_executable(different_ways_to_add_parentheses different_ways_to_add_parentheses.cpp)
+add_executable(course_schedule course_schedule.cpp)
 
