@@ -249,4 +249,5 @@ add_executable(different_ways_to_add_parentheses different_ways_to_add_parenthes
 add_executable(course_schedule course_schedule.cpp)
 add_executable(course_schedule_2 course_schedule_2.cpp)
 add_executable(valid_anagram valid_anagram.cpp)
+add_executable(the_skyline_problem the_skyline_problem.cpp)
 
