@@ -1,6 +1,8 @@
 #include<iostream>
 #include<cassert>
 #include<vector>
+#include<algorithm>
+#include<set>
 
 class SolutionDivideConquer
 {
