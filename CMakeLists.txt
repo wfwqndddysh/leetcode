@@ -252,4 +252,5 @@ add_executable(valid_anagram valid_anagram.cpp)
 add_executable(the_skyline_problem the_skyline_problem.cpp)
 add_executable(edit_distance edit_distance.cpp)
 add_executable(text_justification text_justification.cpp)
+add_executable(valid_number valid_number.cpp)
 
