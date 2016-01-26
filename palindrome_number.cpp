@@ -44,6 +44,7 @@ public:
     }
 };
 
+//对于溢出应该是没有处理好的
 class SolutionLeetCode
 {
 public:
@@ -59,6 +60,36 @@ public:
         return (x==sum)||(x==sum/10);
     }
 };
+
+class SolutionCleanCode
+{
+public:
+    bool isPalindrome(int x)
+    {
+        if(x<0) return false;
+
+        int div = 10;
+
+        while(x / div >= 10)
+        {
+            div *= 10;
+        }
+
+        while( x != 0 )
+        {
+            int l = x / div;
+            int r = x % 10;
+            
+            if(l != r) return false;
+
+            x = ( x % div ) / 10;
+            div /= 100;
+        }
+
+        return true;
+    }
+};
+
 
 int main()
 {
