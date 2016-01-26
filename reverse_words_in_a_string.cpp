@@ -32,7 +32,10 @@ public:
                 s[write++] =  ' ';
             }
         }
-        for(size_t i=write==0 ? write : write-1; i<sz; ++i)
+
+        if(write>0) write--; //last ' '
+
+        for(size_t i=write; i<sz; ++i)
         {
             s.erase(--s.end());
         }
