@@ -1,6 +1,8 @@
 #include<iostream>
 #include<cassert>
 #include<climits>
+#include<vector>
+#include<algorithm>
 
 struct TreeNode
 {
@@ -64,6 +66,58 @@ private:
         }
     }
 };
+
+class SolutionMyClean
+{
+public:
+    int maxPathSum(TreeNode *root)
+    {
+        int maxCurrNodeAsEnd = 0;
+        return rec(root, maxCurrNodeAsEnd);
+    }
+
+private:
+    int rec(TreeNode *root, int &maxCurrNodeAsEnd)
+    {
+        if(!root)
+        {
+            maxCurrNodeAsEnd = 0;
+            return 0;
+        }
+
+        int maxLeftNodeAsEnd = 0;
+        int maxLeft = rec(root->left, maxLeftNodeAsEnd);
+
+        int maxRightNodeAsEnd = 0;
+        int maxRight = rec(root->right, maxRightNodeAsEnd);
+
+        maxCurrNodeAsEnd = root->val;
+        maxCurrNodeAsEnd += std::max(0, std::max(maxLeftNodeAsEnd, maxRightNodeAsEnd));
+
+        
+        if(!root->left && !root->right)//for negative
+        {
+            return root->val;
+        }
+        else if(!root->left)//for negative
+        {
+            return std::max(maxCurrNodeAsEnd, maxRight);
+        }
+        else if(!root->right)//for negative
+        {
+            return std::max(maxCurrNodeAsEnd, maxLeft);
+        }
+        else
+        {
+            std::vector<int> elements { maxCurrNodeAsEnd,
+                               maxLeftNodeAsEnd+maxRightNodeAsEnd+root->val, 
+                               maxLeft,
+                               maxRight };
+            return *std::max_element(elements.cbegin(), elements.cend());
+        }
+    }
+};
+
 
 class SolutionLeetCode
 {
