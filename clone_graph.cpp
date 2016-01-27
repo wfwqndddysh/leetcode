@@ -46,6 +46,33 @@ private:
     }
 };
 
+class Solution_2
+{
+public:
+    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
+        if(node==nullptr) return node;
+        
+        UndirectedGraphNode* cur = new UndirectedGraphNode(node->label);
+        labels_.insert(std::make_pair(cur->label, cur));
+        
+        for(auto itr=node->neighbors.begin(); itr!=node->neighbors.end(); ++itr)
+        {
+            if(labels_.count((*itr)->label)>0)
+            {
+                cur->neighbors.push_back(labels_[(*itr)->label]);
+            }
+            else
+            {
+                cur->neighbors.push_back(cloneGraph(*itr));
+            }
+        }
+        
+        return cur;
+    }
+private:
+    std::unordered_map<int, UndirectedGraphNode*> labels_;
+};
+
 class SolutionLeetCode
 {
 public:
