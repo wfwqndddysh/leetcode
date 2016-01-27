@@ -129,11 +129,14 @@ public:
         return maxPath;
     }
 
+    //返回值是std::max(含root节点的path的最大sum, 0)
     int dfsMaxPath(TreeNode *root, int &maxPath)
     {
         if (!root) return 0;
         int l = std::max(0, dfsMaxPath(root->left, maxPath));
         int r = std::max(0, dfsMaxPath(root->right, maxPath));
+        //maxPath = std::max(l+root->val, r+root->val, l+r+root->val, maxPath);
+        //assert(l>=0 && r>=0), so we may write so:
         maxPath = std::max(maxPath, l + r + root->val);
         return root->val + std::max(l, r);
     }
