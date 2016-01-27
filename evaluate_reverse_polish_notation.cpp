@@ -79,6 +79,8 @@ public:
     }
 };
 
+//CleanCode里使用栈的标准做法
+
 int main()
 {
     Solution s;
