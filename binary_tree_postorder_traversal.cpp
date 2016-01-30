@@ -28,6 +28,11 @@ public:
             auto cur = s.top();
             bool be_leaf = !cur->left && !cur->right;
             bool be_subtrees_finished = cur->left == head || cur->right == head;
+            //head记录的是上一个被访问的节点，已经从stack中拿到cur了
+            //说明cur->left, cur->right肯定不在stack里了（或者为null，或者被弹出去了
+            //所以，如果上一个被访问的是cur右节点，则cur的右子树遍历结束，左节点更结束
+            //如果上一个被访问的是cur的左节点，则说明cur没有右节点
+            //总之，be_subtrees_finished == true;
 
             if(be_leaf || be_subtrees_finished)
             {

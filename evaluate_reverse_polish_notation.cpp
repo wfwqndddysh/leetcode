@@ -79,6 +79,43 @@ public:
     }
 };
 
+class SolutionSecondTime
+{
+public:
+    int evalRPN(std::vector<std::string>& tokens) {
+        
+        size_t next = 0;
+        int val = rec(tokens, tokens.size()-1, next);
+        return val;
+    }
+private:
+    int rec(const std::vector<std::string>& tokens, size_t start, size_t& next)
+    {
+        if(!isOperator(tokens[start]))
+        {
+            next = start-1;
+            return stoi(tokens[start]);
+        }
+        
+        int right = rec(tokens, start-1, next);
+        int left = rec(tokens, next, next);
+        
+        switch(tokens[start][0])
+        {
+            case '+': return left + right;
+            case '-': return left - right;
+            case '*': return left * right;
+            case '/': return left / right;
+            default: exit(0);
+        }
+    }
+    
+    bool isOperator(const std::string& str)
+    {
+        return str=="+" || str=="-" || str=="*" || str=="/";
+    }
+};
+
 //CleanCode里使用栈的标准做法
 
 int main()
