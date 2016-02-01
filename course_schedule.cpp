@@ -55,39 +55,42 @@ public:
 class SolutionLeetCodeDFS
 {
     public:
-        bool dfs(int v, std::vector<int> &visit, std::vector<std::set<int>> &gr)
+        bool dfs(int v, std::vector<int> &visit, std::vector<std::set<int>> &graph)
         {
             if (visit[v] == 1){return true;}
 
-            visit[v] = -1;
-            for (auto it = gr[v].begin(); it != gr[v].end(); it++)
+            visit[v] = DISCOVERED;
+            for (auto it = graph[v].begin(); it != graph[v].end(); it++)
             {
-                if (visit[*it] == -1 || ! dfs(*it, visit, gr))
+                if (visit[*it] == DISCOVERED || ! dfs(*it, visit, graph))
                 {
                     return false;
                 }
             }
-            visit[v] = 1;
+            visit[v] = PROCCESSED;
             return true;
         }
 
         bool canFinish(int numCourses, std::vector<std::pair<int, int>>& prerequisites)
         {
             int plen = prerequisites.size();
-            std::vector<int> visit(numCourses,0);
-            std::vector<std::set<int> > gr(numCourses);
+            std::vector<int> visit(numCourses,UNDISCOVERED);
+            std::vector<std::set<int> > graph(numCourses);
 
             for (int i=0;i<plen;i++)
             {
-                gr[prerequisites[i].second].insert(prerequisites[i].first);
+                graph[prerequisites[i].second].insert(prerequisites[i].first);
             }
 
             for (int i=0;i<numCourses;i++)
             {
-                if (!dfs(i, visit, gr)) return false;
+                if (!dfs(i, visit, graph)) return false;
             }
             return true;
         }
+
+    private:
+        enum { UNDISCOVERED, DISCOVERED, PROCCESSED };
 };
 
 class SolutionBFS

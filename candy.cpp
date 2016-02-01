@@ -60,7 +60,9 @@ public:
             while (ratings[i] > ratings[i+1] && i < n-1) ++i;
             int k = i - start - 1;
             min_candies += (k * (k + 1)) / 2;
+
             if (i - start > range) min_candies += (i - start - range);
+
             if (ratings[i] == ratings[i+1]) ++i;
         }
         return min_candies;
