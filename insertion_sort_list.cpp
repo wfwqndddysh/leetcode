@@ -2,6 +2,9 @@
 #include<cassert>
 #include<vector>
 
+/*
+Sort a linked list using insertion sort.
+*/
 struct ListNode
 {
      int val;
