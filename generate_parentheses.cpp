@@ -52,6 +52,48 @@ private:
     std::vector<std::string> parenthesis_;
 };
 
+class SolutionMyClean
+{
+public:
+    std::vector<std::string> generateParenthesis(int n)
+    {
+        if(n<=0) return solutions_;
+        n_ = n;
+
+        std::string solution;
+        backtrack(solution, 0, 0);
+        return solutions_;
+    }
+private:
+    void backtrack(std::string& solution, int open_used, int close_used)
+    {
+        if(open_used==close_used && open_used==n_)
+        {
+            solutions_.push_back(solution);
+        }
+        else if(close_used>open_used || open_used>n_)
+        {
+            return;
+        }
+
+        size_t sz=solution.size();
+        solution.push_back('(');
+        backtrack(solution, open_used+1, close_used);
+
+        //restore
+        while(solution.size()!=sz) solution.erase(--solution.end());
+
+        if(open_used>close_used)
+        {
+            solution.push_back(')');
+            backtrack(solution, open_used, close_used+1);
+        }
+    }
+
+    int n_;
+    std::vector<std::string> solutions_;
+};
+
 int main()
 {
     Solution s;

@@ -46,7 +46,8 @@ public:
 int main()
 {
     Solution s;
-    std::vector<std::string> strs{"", ""};
+    //std::vector<std::string> strs{"", ""};
+    std::vector<std::string> strs{ "eat", "tea", "tan", "ate", "nat", "bat"};
     auto v = s.anagrams(strs);
 
     for(const auto& s : v)

@@ -40,7 +40,7 @@ int main()
     auto v = s.grayCode(4);
 
     for(int n : v)
-        std::cout<<n<<std::endl;
+        std::cout<<std::boolalpha<<n<<std::endl;
 
     std::cout<<std::endl;
     return 0;
