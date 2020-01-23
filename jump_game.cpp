@@ -32,7 +32,7 @@ public:
 class SolutionMySecond
 {
 public:
-    bool canJump(vector<int>& nums)
+    bool canJump(std::vector<int>& nums)
     {
         int curr_max = 0;
         int i=0;

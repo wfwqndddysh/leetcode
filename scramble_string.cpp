@@ -2,6 +2,7 @@
 #include<cassert>
 #include<string>
 #include<algorithm>
+#include<vector>
 
 class SolutionRec
 {
@@ -15,8 +16,8 @@ public:
             return s1 == s2;
 
         std::string st1 = s1, st2 = s2;
-        sort(st1.begin(), st1.end());
-        sort(st2.begin(), st2.end());
+        std::sort(st1.begin(), st1.end());
+        std::sort(st2.begin(), st2.end());
 
         if(st1!=st2) return false;
 

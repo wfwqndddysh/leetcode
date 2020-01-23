@@ -3,6 +3,7 @@
 #include<vector>
 #include<algorithm>
 #include<climits>
+#include<vector>
 
 class Solution
 {
